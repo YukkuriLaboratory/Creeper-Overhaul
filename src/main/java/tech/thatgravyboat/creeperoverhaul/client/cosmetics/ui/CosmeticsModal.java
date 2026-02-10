@@ -31,9 +31,7 @@ public class CosmeticsModal extends ContainerWidget {
         LinearLayout sidebar = LinearLayout.vertical().spacing(5);
 
         sidebar.addChild(new CosmeticPreview(previewWidth, height - 25));
-        sidebar.addChild(new CustomButton(previewWidth, 20, Component.literal("Claim Code"), () -> {
-            ResourcefulConfigScreen.openModal(Component.empty(), CosmeticsClaimModal::new);
-        }));
+        sidebar.addChild(new CustomButton(previewWidth, 20, Component.literal("Claim Code"), () -> ResourcefulConfigScreen.openModal(Component.empty(), CosmeticsClaimModal::new)));
 
         layout.addChild(sidebar);
         layout.addChild(grid);
