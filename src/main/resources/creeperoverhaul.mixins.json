@@ -1,0 +1,21 @@
+{
+  "required": true,
+  "package": "tech.thatgravyboat.creeperoverhaul.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "BaseCreeperMixin",
+    "IronGolemMixin",
+    "PlayerListMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  },
+  "client": [
+    "client.ClientPacketListenerMixin",
+    "client.EntityRenderDispatcherMixin",
+    "client.LivingEntityRendererInvoker"
+  ]
+}
