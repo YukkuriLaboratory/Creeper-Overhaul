@@ -1,9 +1,7 @@
 package tech.thatgravyboat.creeperoverhaul.common.registry;
 
-import com.teamresourceful.resourcefullib.common.exceptions.NotImplementedException;
 import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistries;
 import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistry;
-import dev.architectury.injectables.annotations.ExpectPlatform;
 import java.util.function.Supplier;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.EntityType;
@@ -67,8 +65,7 @@ public class ModItems {
 
     public static final Supplier<Item> TINY_CACTUS =  ITEMS.register("tiny_cactus", () -> new BlockItem(ModBlocks.TINY_CACTUS.get(), new Item.Properties()));
 
-    @ExpectPlatform
     public static <E extends Mob, T extends EntityType<E>> SpawnEggItem createSpawnEgg(Supplier<T> entity, int primaryColor, int secondaryColor, Item.Properties properties) {
-        throw new NotImplementedException();
+        return new SpawnEggItem(entity.get(), primaryColor, secondaryColor, properties);
     }
 }

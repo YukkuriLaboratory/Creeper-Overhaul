@@ -1,41 +1,46 @@
 package tech.thatgravyboat.creeperoverhaul.common.utils;
 
-import dev.architectury.injectables.annotations.ExpectPlatform;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.core.Holder;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.item.FlintAndSteelItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ShearsItem;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
+import tech.thatgravyboat.creeperoverhaul.common.config.CreepersConfig;
 import tech.thatgravyboat.creeperoverhaul.common.entity.base.BaseCreeper;
+import tech.thatgravyboat.creeperoverhaul.common.registry.FabricAttributes;
 
 public class PlatformUtils {
 
-    @ExpectPlatform
     public static boolean shouldHidePowerLayer() {
         return false;
     }
 
-    @ExpectPlatform
     public static Level.ExplosionInteraction getInteractionForCreeper(BaseCreeper creeper) {
-        throw new AssertionError();
+        boolean destroyBlocks = creeper.level().getGameRules().getRule(GameRules.RULE_MOBGRIEFING).get() && CreepersConfig.destroyBlocks;
+        return destroyBlocks ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE;
     }
 
     @Contract(pure = true)
-    @ExpectPlatform
     public static boolean isShears(ItemStack stack) {
-        throw new AssertionError();
+        return stack.getItem() instanceof ShearsItem || stack.is(ConventionalItemTags.SHEAR_TOOLS);
     }
 
     @Contract(pure = true)
-    @ExpectPlatform
     public static boolean isFlintAndSteel(ItemStack stack) {
-        throw new AssertionError();
+        return stack.getItem() instanceof FlintAndSteelItem || stack.is(ItemTags.CREEPER_IGNITERS);
     }
 
     @Nullable
-    @ExpectPlatform
     public static Holder<Attribute> getModAttribute(String name) {
-        throw new AssertionError();
+        if ("swim_speed".equals(name)) {
+            return FabricAttributes.getSwimSpeed();
+        }
+        return null;
     }
 }

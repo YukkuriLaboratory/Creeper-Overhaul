@@ -29,7 +29,7 @@ import tech.thatgravyboat.creeperoverhaul.Creepers;
 import tech.thatgravyboat.creeperoverhaul.common.entity.base.BaseCreeper;
 import tech.thatgravyboat.creeperoverhaul.common.registry.ModEntities;
 import tech.thatgravyboat.creeperoverhaul.common.registry.ModSpawns;
-import tech.thatgravyboat.creeperoverhaul.common.registry.fabric.FabricAttributes;
+import tech.thatgravyboat.creeperoverhaul.common.registry.FabricAttributes;
 
 public class CreepersFabric implements ModInitializer {
 

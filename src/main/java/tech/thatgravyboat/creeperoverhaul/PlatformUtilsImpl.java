@@ -11,7 +11,7 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import tech.thatgravyboat.creeperoverhaul.common.config.CreepersConfig;
 import tech.thatgravyboat.creeperoverhaul.common.entity.base.BaseCreeper;
-import tech.thatgravyboat.creeperoverhaul.common.registry.fabric.FabricAttributes;
+import tech.thatgravyboat.creeperoverhaul.common.registry.FabricAttributes;
 
 public class PlatformUtilsImpl {
     public static boolean shouldHidePowerLayer() {

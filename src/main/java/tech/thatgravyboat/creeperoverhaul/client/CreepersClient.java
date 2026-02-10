@@ -1,8 +1,9 @@
 package tech.thatgravyboat.creeperoverhaul.client;
 
-import dev.architectury.injectables.annotations.ExpectPlatform;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -84,13 +85,12 @@ public class CreepersClient {
     public static <E extends Entity> void registerRenderer(Supplier<EntityType<E>> entity, EntityRendererProvider<E> renderer) {
         registerRenderer(entity.get(), renderer);
     }
-    @ExpectPlatform
+
     public static <E extends Entity> void registerRenderer(EntityType<E> entity, EntityRendererProvider<E> renderer) {
-        throw new AssertionError();
+        EntityRendererRegistry.register(entity, renderer);
     }
 
-    @ExpectPlatform
     public static void registerBlockRenderType(Supplier<Block> block, RenderType type) {
-        throw new AssertionError();
+        BlockRenderLayerMap.INSTANCE.putBlock(block.get(), type);
     }
 }

@@ -10,11 +10,12 @@ base {
 }
 
 repositories {
-	// Add repositories to retrieve artifacts from in here.
-	// You should only use this when depending on other mods because
-	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
-	// for more information about repositories.
+	mavenCentral()
+	maven {
+		// Location of the maven that hosts Team Resourceful's jars.
+		name = "Team Resourceful Maven"
+		url = "https://maven.teamresourceful.com/repository/maven-public/"
+	}
 }
 
 dependencies {
@@ -23,7 +24,11 @@ dependencies {
 	mappings loom.officialMojangMappings()
 	modImplementation(libs.fabric.loader)
 	modImplementation(libs.fabric.api)
-	
+	modImplementation("com.teamresourceful.resourcefulconfig:resourcefulconfig-fabric-1.21:3.0.8")
+	modImplementation("com.teamresourceful.resourcefullib:resourcefullib-fabric-1.21:3.0.12")
+	modImplementation("software.bernie.geckolib:geckolib-fabric-1.21.1:4.7")
+	include(modImplementation("com.teamresourceful:resourceful-cosmetics-4j:1.0.3"))
+	modImplementation("com.teamresourceful:bytecodecs:1.1.2")
 }
 
 processResources {
