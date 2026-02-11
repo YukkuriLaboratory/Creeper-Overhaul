@@ -31,6 +31,12 @@ dependencies {
 	modImplementation("com.teamresourceful:bytecodecs:1.1.2")
 }
 
+fabricApi {
+	configureDataGeneration() {
+		client = true
+	}
+}
+
 processResources {
 	inputs.property "version", project.version
 

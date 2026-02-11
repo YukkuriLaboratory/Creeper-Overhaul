@@ -17,6 +17,9 @@
 		],
 		"client": [
 			"tech.thatgravyboat.creeperoverhaul.CreepersClientFabric"
+		],
+		"fabric-datagen": [
+			"tech.thatgravyboat.creeperoverhaul.datagen.CreepersDataGenerator"
 		]
 	},
 	"mixins": [
