@@ -24,11 +24,16 @@ dependencies {
 	mappings loom.officialMojangMappings()
 	modImplementation(libs.fabric.loader)
 	modImplementation(libs.fabric.api)
-	modImplementation("com.teamresourceful.resourcefulconfig:resourcefulconfig-fabric-1.21:3.0.8")
-	modImplementation("com.teamresourceful.resourcefullib:resourcefullib-fabric-1.21:3.0.12")
-	modImplementation("software.bernie.geckolib:geckolib-fabric-1.21.1:4.7")
-	include(modImplementation("com.teamresourceful:resourceful-cosmetics-4j:1.0.3"))
-	modImplementation("com.teamresourceful:bytecodecs:1.1.2")
+
+	// Additional dependencies
+	modImplementation(libs.resourceful.config)
+	modImplementation(libs.resourceful.lib)
+	modImplementation(libs.resourceful.cosmetics)
+	modImplementation(libs.geckolib)
+	modImplementation(libs.bytecodecs)
+
+	// Shadow dependencies
+	include(libs.resourceful.cosmetics)
 }
 
 fabricApi {
