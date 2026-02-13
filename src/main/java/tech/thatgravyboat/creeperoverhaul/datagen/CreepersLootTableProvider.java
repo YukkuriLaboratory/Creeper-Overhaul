@@ -18,7 +18,7 @@ import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.TagEntry;
 import net.minecraft.world.level.storage.loot.functions.EnchantedCountIncreaseFunction;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.predicates.LootItemEntityPropertyCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemKilledByPlayerCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceWithEnchantedBonusCondition;
@@ -31,8 +31,8 @@ public class CreepersLootTableProvider extends SimpleFabricLootTableProvider {
     private final CompletableFuture<HolderLookup.Provider> lookup;
     private HolderLookup.Provider registries;
 
-    public CreepersLootTableProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registryLookup, LootContextParamSet lootContextType) {
-        super(output, registryLookup, lootContextType);
+    public CreepersLootTableProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
+        super(output, registryLookup, LootContextParamSets.ENTITY);
         this.lookup = registryLookup;
     }
 
