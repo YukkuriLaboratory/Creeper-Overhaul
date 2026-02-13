@@ -35,100 +35,81 @@
 ./gradlew test --tests "ClassName.methodName"
 ```
 
-**Note**: No test suite currently exists in this project.
-
 ## Project Structure
 
 ```
-src/
-├── main/
-│   ├── java/tech/thatgravyboat/creeperoverhaul/
-│   │   ├── api/              # Plugin API
-│   │   ├── client/           # Client-side code (renderers, UI)
-│   │   ├── common/           # Shared code (entities, registry, config)
-│   │   ├── mixin/            # Server-side mixins
-│   │   └── mixin/client/     # Client-side mixins
-│   └── resources/
-│       ├── assets/creeperoverhaul/  # Models, textures, animations
-│       └── data/                    # Loot tables, recipes
+src/main/java/tech/thatgravyboat/creeperoverhaul/
+├── api/              # Plugin API
+├── client/           # Client-side code (renderers, UI)
+├── common/           # Shared code (entities, registry, config)
+├── mixin/            # Server-side mixins
+└── mixin/client/     # Client-side mixins
 ```
 
-## Task Plan → Build Flow
+## Version Catalog
 
-When implementing changes, follow this workflow:
+Dependencies are managed via Gradle version catalog in `gradle/libs.versions.toml`:
 
-1. **Understand the Task**
-   - Review the requirement and identify affected systems (entities, rendering, config, etc.)
-   - Search for similar implementations in the codebase to follow existing patterns
+```toml
+[versions]
+minecraft = "1.21.1"
+fabric-loom = "1.15-SNAPSHOT"
+fabric-api = "0.116.8+1.21.1"
+geckolib = "4.7"
 
-2. **Explore the Codebase**
-   - Use glob/grep to find relevant files and examples
-   - Check existing entity implementations in `common/entity/`
-   - Review registry patterns in `common/registry/`
+[libraries]
+minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
+geckolib = { module = "software.bernie.geckolib:geckolib-fabric-1.21.1", version.ref = "geckolib" }
 
-3. **Create Task Plan**
-   - Create a task plan file in `plans/` directory (e.g., `plans/implement-feature.md`)
-   - List all steps needed to complete the task
-   - Update the plan file as work progresses
+[plugins]
+fabric-loom = { id = "net.fabricmc.fabric-loom-remap", version.ref = "fabric-loom" }
+```
 
-4. **Implement Changes**
-   - Follow code style guidelines (imports, naming, patterns)
-   - Use existing utilities (e.g., `Creepers.id()` for resource locations)
-   - Add new registries to appropriate `Mod*` classes
+Usage in `build.gradle`:
+```groovy
+plugins {
+    alias(libs.plugins.fabric.loom)
+}
 
-5. **Build and Verify**
-   ```bash
-   # Clean build to catch compilation errors
-   ./gradlew clean build
-   
-   # Run client to test in-game
-   ./gradlew runClient
-   
-   # Run datagen if adding new blocks/items
-   ./gradlew runDatagen
-   ```
-
-6. **Complete Task**
-   - Verify no compilation warnings
-   - Test both client and server sides (if applicable)
-   - Ensure resource locations are correct
-   - Delete the completed plan file from `plans/` directory
+dependencies {
+    minecraft(libs.minecraft)
+    modImplementation(libs.fabric.api)
+    modImplementation(libs.geckolib)
+}
+```
 
 ## Code Style Guidelines
 
 ### Imports
-Order: Java standard library → Minecraft/Fabric → Third-party libraries → Project imports
+Order: Java stdlib → Minecraft/Fabric → Third-party → Project
 
 ```java
 package tech.thatgravyboat.creeperoverhaul.common.entity;
 
-import java.util.Locale;
 import java.util.function.Function;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntityType;
 import tech.thatgravyboat.creeperoverhaul.Creepers;
 import tech.thatgravyboat.creeperoverhaul.common.registry.ModSounds;
 ```
 
 ### Formatting
-- **Indentation**: 4 spaces (no tabs)
+- **Indentation**: 4 spaces
 - **Line endings**: LF
-- **Max line length**: ~120 characters
-- **Braces**: Same-line opening braces for methods/classes
-- **Whitespace**: One blank line between methods, two between classes
+- **Max line length**: ~120 chars
+- **Braces**: Same-line opening braces
+- **Whitespace**: 1 blank line between methods, 2 between classes
 
 ### Naming Conventions
 - **Classes**: PascalCase (e.g., `CreeperType`, `BaseCreeper`)
-- **Methods**: camelCase (e.g., `getTexture()`, `build()`)
-- **Fields**: camelCase; constants UPPER_SNAKE_CASE
-- **Mod ID constant**: `MOD_ID` or `MODID`
+- **Methods/Fields**: camelCase
+- **Constants**: UPPER_SNAKE_CASE
 - **Registry holders**: UPPER_SNAKE_CASE (e.g., `BLOCKS`, `ENTITIES`)
 
 ### Types & Patterns
 - Use `record` for immutable data containers
-- Use `Optional<T>` for potentially null returns
-- Use Builder pattern for complex object construction
+- Use `Optional<T>` instead of null returns
+- Use Builder pattern for complex construction
 - Use `Supplier<T>` and `Function<T, R>` for lazy evaluation
 
 ```java
@@ -145,44 +126,16 @@ public record CreeperType(
 
 ### Resource Locations
 Always use the utility method:
-
 ```java
-public static ResourceLocation id(String path) {
-    return ResourceLocation.fromNamespaceAndPath(MODID, path);
-}
-
-// Usage:
 Creepers.id("textures/entity/jungle/jungle_creeper.png")
 ```
 
 ### Error Handling
-- Use `Optional` instead of returning null
+- Use `Optional` instead of null
 - Use early returns to reduce nesting
-- Log errors using: `CreeperOverhaul.LOGGER`
-
-### Mixin Guidelines
-- Place mixins in `mixin` or `mixin/client` packages
-- Use `@Mixin` annotation with target class
-- Use `@Inject` for method injection with proper cancellation
-- Name invoker interfaces descriptively (e.g., `LivingEntityRendererInvoker`)
-
-### Configuration
-Use ResourcefulConfig annotations:
-
-```java
-@Config(value = "creeperoverhaul", categories = {SpawningConfig.class})
-@ConfigInfo(title = "Creeper Overhaul", description = "Biome specific creepers")
-@ConfigInfo.Color("#7BB252")
-public final class CreepersConfig {
-    @ConfigEntry(id = "destroyBlocks")
-    @Comment("Changes the Creeper Overhaul creepers to destroy blocks or not.")
-    public static boolean destroyBlocks = true;
-}
-```
+- Log errors via: `CreeperOverhaul.LOGGER`
 
 ### Registry Pattern
-Use the project's registry holder pattern:
-
 ```java
 public class ModItems {
     public static final RegistryHolder<Item> TINY_CACTUS = ITEMS.register("tiny_cactus", ...);
@@ -193,16 +146,40 @@ public class ModItems {
 }
 ```
 
+### Mixin Guidelines
+- Place mixins in `mixin` or `mixin/client` packages
+- Use `@Mixin` annotation with target class
+- Use `@Inject` for method injection with proper cancellation
+- Name invoker interfaces descriptively (e.g., `LivingEntityRendererInvoker`)
+
+### Configuration
+Use ResourcefulConfig annotations:
+```java
+@Config(value = "creeperoverhaul", categories = {SpawningConfig.class})
+@ConfigInfo(title = "Creeper Overhaul", description = "Biome specific creepers")
+public final class CreepersConfig {
+    @ConfigEntry(id = "destroyBlocks")
+    @Comment("Changes the Creeper Overhaul creepers to destroy blocks or not.")
+    public static boolean destroyBlocks = true;
+}
+```
+
+## Task Workflow
+
+1. Explore codebase - find similar implementations
+2. Create plan in `plans/` directory
+3. Implement changes following code style
+4. Build and verify: `./gradlew clean build`
+5. Test in-game: `./gradlew runClient`
+6. Run datagen if needed: `./gradlew runDatagen`
+7. Delete completed plan file
+
 ## CI/CD
-- GitHub Actions workflow in `.github/workflows/build.yml`
-- Runs on Java 25 (Microsoft distribution)
+- GitHub Actions runs on Java 25 (Microsoft)
 - Builds on every push and PR
 
 ## Dependencies
-- Fabric API
+- Fabric API, Fabric Loader
 - Resourceful Lib / Resourceful Config
-- GeckoLib (for animations)
+- GeckoLib (animations)
 - ByteCodecs
-
-## License
-All Rights Reserved to Bonsai Studios
