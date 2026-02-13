@@ -3,15 +3,15 @@ package tech.thatgravyboat.creeperoverhaul.client;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import java.util.function.Consumer;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import tech.thatgravyboat.creeperoverhaul.Creepers;
 
 public class RenderTypes extends RenderType {
 
     private static ShaderInstance energySwirlShader;
-    public static final ResourceLocation ENERGY_SWIRL_RENDERTYPE = Creepers.id("rendertype_energy_swirl");
+    public static final Identifier ENERGY_SWIRL_RENDERTYPE = Creepers.id("rendertype_energy_swirl");
     private static final ShaderStateShard ENERGY_SWIRL_SHARD = new ShaderStateShard(() -> energySwirlShader);
 
     public RenderTypes(String string, VertexFormat vertexFormat, VertexFormat.Mode mode, int i, boolean bl, boolean bl2, Runnable runnable, Runnable runnable2) {
@@ -26,7 +26,7 @@ public class RenderTypes extends RenderType {
         RenderTypes.energySwirlShader = shader;
     }
 
-    public static RenderType getSwirl(ResourceLocation location, float u, float v) {
+    public static RenderType getSwirl(Identifier location, float u, float v) {
         return create(ENERGY_SWIRL_RENDERTYPE.toString(),
                 DefaultVertexFormat.NEW_ENTITY,
                 VertexFormat.Mode.QUADS,
@@ -45,7 +45,7 @@ public class RenderTypes extends RenderType {
         );
     }
 
-    public static RenderType getTransparentEyes(ResourceLocation location) {
+    public static RenderType getTransparentEyes(Identifier location) {
         return create("eyes",
                 DefaultVertexFormat.NEW_ENTITY,
                 VertexFormat.Mode.QUADS, 256,
@@ -60,6 +60,6 @@ public class RenderTypes extends RenderType {
     }
 
     public interface Registrar {
-        void register(ResourceLocation id, VertexFormat vertexFormat, Consumer<ShaderInstance> loadCallback);
+        void register(Identifier id, VertexFormat vertexFormat, Consumer<ShaderInstance> loadCallback);
     }
 }

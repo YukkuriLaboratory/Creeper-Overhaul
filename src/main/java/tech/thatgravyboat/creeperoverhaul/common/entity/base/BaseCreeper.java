@@ -46,11 +46,11 @@ import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.animatable.manager.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.AnimationProcessor;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
+import software.bernie.geckolib.animation.object.PlayState;
+import software.bernie.geckolib.animation.state.AnimationTest;
 import software.bernie.geckolib.util.GeckoLibUtil;
 import tech.thatgravyboat.creeperoverhaul.api.PluginRegistry;
 import tech.thatgravyboat.creeperoverhaul.common.entity.goals.CreeperAvoidEntitiesGoal;
@@ -366,23 +366,22 @@ public class BaseCreeper extends Creeper implements GeoEntity, Shearable {
     //endregion
 
     //region Animation
-    protected <E extends GeoAnimatable> PlayState animate(AnimationState<E> event) {
-        AnimationProcessor.QueuedAnimation animation = event.getController().getCurrentAnimation();
+    protected <E extends GeoAnimatable> PlayState animate(AnimationTest<E> animTest) {
         if (isAttacking()) {
-            event.getController().setAnimation(AnimationConstants.ATTACK);
-        } else if (animation != null && animation.animation().name().equals("animation.creeper.attack") && event.getController().getAnimationState().equals(AnimationController.State.RUNNING)) {
+            animTest.controller().setAnimation(AnimationConstants.ATTACK);
+        } else if (animTest.isCurrentAnimationStage("animation.creeper.attack") && animTest.controller().getPlayState().equals(PlayState.CONTINUE)) {
             return PlayState.CONTINUE;
-        } else if (event.isMoving()) {
-            event.getController().setAnimation(AnimationConstants.WALK);
+        } else if (animTest.isMoving()) {
+            animTest.controller().setAnimation(AnimationConstants.WALK);
         } else {
-            event.getController().setAnimation(AnimationConstants.IDLE);
+            animTest.controller().setAnimation(AnimationConstants.IDLE);
         }
         return PlayState.CONTINUE;
     }
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<GeoAnimatable>(this, "controller", 3, this::animate));
+        controllers.add(new AnimationController<>(this, "controller", 3, this::animate));
     }
 
     @Override

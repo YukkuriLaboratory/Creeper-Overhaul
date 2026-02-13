@@ -3,16 +3,15 @@ package tech.thatgravyboat.creeperoverhaul.client.renderer.cosmetics;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.model.player.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.cache.object.BakedGeoModel;
+import software.bernie.geckolib.cache.model.BakedGeoModel;
 import tech.thatgravyboat.creeperoverhaul.client.cosmetics.Cosmetic;
 import tech.thatgravyboat.creeperoverhaul.client.cosmetics.CosmeticModel;
 import tech.thatgravyboat.creeperoverhaul.client.cosmetics.Cosmetics;
@@ -54,7 +53,7 @@ public class CosmeticLayer extends RenderLayer<AbstractClientPlayer, PlayerModel
         cosmetic.transformation().applyTranslation(stack);
         cosmetic.transformation().applyRotation(stack);
 
-        RenderType type = RenderType.entityTranslucent(cosmetic.texture().getResourceLocation());
+        RenderType type = RenderType.entityTranslucent(cosmetic.texture().getIdentifier());
         VertexConsumer consumer = source.getBuffer(type);
 
         CosmeticModel model = cosmetic.model();

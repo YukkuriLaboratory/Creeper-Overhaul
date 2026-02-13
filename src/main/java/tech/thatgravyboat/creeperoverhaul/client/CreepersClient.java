@@ -5,12 +5,12 @@ import java.util.function.Supplier;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.model.player.PlayerModel;
 import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.player.PlayerRenderer;
-import net.minecraft.client.resources.PlayerSkin;
+import net.minecraft.client.renderer.entity.player.AvatarRenderer;
+import net.minecraft.world.entity.player.PlayerSkin;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Block;
@@ -43,9 +43,9 @@ public class CreepersClient {
     }
 
     @SuppressWarnings("unchecked")
-    public static void registerEntityLayers(Function<PlayerSkin.Model, PlayerRenderer> getter) {
-        PlayerRenderer defaultRenderer = getter.apply(PlayerSkin.Model.WIDE);
-        PlayerRenderer slimRenderer = getter.apply(PlayerSkin.Model.SLIM);
+    public static void registerEntityLayers(Function<PlayerSkin.Model, AvatarRenderer> getter) {
+        AvatarRenderer defaultRenderer = getter.apply(PlayerSkin.Model.WIDE);
+        AvatarRenderer slimRenderer = getter.apply(PlayerSkin.Model.SLIM);
         LivingEntityRendererInvoker<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> defaultInvoker = ((LivingEntityRendererInvoker<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) defaultRenderer);
         LivingEntityRendererInvoker<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> slimInvoker = ((LivingEntityRendererInvoker<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) slimRenderer);
         if (defaultRenderer != null && slimRenderer != null) {

@@ -3,14 +3,14 @@ package tech.thatgravyboat.creeperoverhaul.client.renderer.replaced;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.monster.Creeper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.cache.object.BakedGeoModel;
+import software.bernie.geckolib.cache.model.BakedGeoModel;
 import software.bernie.geckolib.renderer.GeoReplacedEntityRenderer;
 import tech.thatgravyboat.creeperoverhaul.common.entity.ReplacedCreeper;
 
@@ -52,7 +52,7 @@ public class ReplacedCreeperRenderer extends GeoReplacedEntityRenderer<Creeper, 
     }
 
     @Override
-    public RenderType getRenderType(ReplacedCreeper animatable, ResourceLocation texture, @Nullable MultiBufferSource bufferSource, float partialTick) {
+    public RenderType getRenderType(ReplacedCreeper animatable, Identifier texture, @Nullable MultiBufferSource bufferSource, float partialTick) {
         return RenderType.entityTranslucent(texture);
     }
 

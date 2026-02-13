@@ -12,13 +12,12 @@ import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.cache.object.BakedGeoModel;
+import net.minecraft.resources.Identifier;
+import software.bernie.geckolib.cache.model.BakedGeoModel;
 import tech.thatgravyboat.creeperoverhaul.client.cosmetics.Cosmetic;
 import tech.thatgravyboat.creeperoverhaul.client.cosmetics.CosmeticModel;
 import tech.thatgravyboat.creeperoverhaul.client.cosmetics.service.CosmeticsApi;
@@ -37,7 +36,7 @@ public class CosmeticButton extends AbstractButton {
 
     @Override
     protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
-        ResourceLocation texture = this.isHovered ? ModSprites.BUTTON_HOVER : ModSprites.BUTTON;
+        Identifier texture = this.isHovered ? ModSprites.BUTTON_HOVER : ModSprites.BUTTON;
         graphics.blitSprite(texture, getX(), getY(), getWidth(), getHeight());
         try (
             var ignored = RenderUtils.createScissor(Minecraft.getInstance(), graphics, getX(), getY(), getWidth(), getHeight());
@@ -58,7 +57,7 @@ public class CosmeticButton extends AbstractButton {
 
             MultiBufferSource.BufferSource source = Minecraft.getInstance().renderBuffers().bufferSource();
 
-            RenderType type = RenderType.entityTranslucent(cosmetic.texture().getResourceLocation());
+            RenderType type = RenderType.entityTranslucent(cosmetic.texture().getIdentifier());
             VertexConsumer consumer = source.getBuffer(type);
 
             CosmeticModel model = cosmetic.model();

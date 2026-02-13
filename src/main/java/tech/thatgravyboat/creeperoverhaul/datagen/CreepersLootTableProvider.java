@@ -7,7 +7,7 @@ import net.fabricmc.fabric.api.datagen.v1.provider.SimpleFabricLootTableProvider
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Items;
@@ -197,7 +197,7 @@ public class CreepersLootTableProvider extends SimpleFabricLootTableProvider {
     }
 
     private ResourceKey<LootTable> createEntityLootKey(String entityName) {
-        return ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(Creepers.MODID, "entities/" + entityName));
+        return ResourceKey.create(Registries.LOOT_TABLE, Identifier.fromNamespaceAndPath(Creepers.MODID, "entities/" + entityName));
     }
 
     private LootPool.Builder createGunpowderPool() {

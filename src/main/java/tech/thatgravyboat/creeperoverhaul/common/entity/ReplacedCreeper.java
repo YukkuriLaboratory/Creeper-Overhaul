@@ -4,10 +4,10 @@ import net.minecraft.world.entity.EntityType;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoReplacedEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.animatable.manager.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
+import software.bernie.geckolib.animation.object.PlayState;
+import software.bernie.geckolib.animation.state.AnimationTest;
 import software.bernie.geckolib.util.GeckoLibUtil;
 import tech.thatgravyboat.creeperoverhaul.common.utils.AnimationConstants;
 
@@ -17,14 +17,14 @@ public class ReplacedCreeper implements GeoReplacedEntity {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "controller", 5, this::predicate));
+        controllers.add(new AnimationController<>("controller", 5, this::predicate));
     }
 
-    private <P extends GeoAnimatable> PlayState predicate(AnimationState<P> event) {
-        if (event.isMoving()) {
-            event.getController().setAnimation(AnimationConstants.WALK);
+    private <P extends GeoAnimatable> PlayState predicate(AnimationTest<P> animTest) {
+        if (animTest.isMoving()) {
+            animTest.controller().setAnimation(AnimationConstants.WALK);
         } else {
-            event.getController().setAnimation(AnimationConstants.IDLE);
+            animTest.controller().setAnimation(AnimationConstants.IDLE);
         }
         return PlayState.CONTINUE;
     }

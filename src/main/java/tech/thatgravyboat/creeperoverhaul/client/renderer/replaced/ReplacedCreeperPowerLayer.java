@@ -3,11 +3,11 @@ package tech.thatgravyboat.creeperoverhaul.client.renderer.replaced;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.monster.Creeper;
-import software.bernie.geckolib.cache.object.BakedGeoModel;
+import software.bernie.geckolib.cache.model.BakedGeoModel;
 import software.bernie.geckolib.renderer.layer.GeoRenderLayer;
 import tech.thatgravyboat.creeperoverhaul.Creepers;
 import tech.thatgravyboat.creeperoverhaul.client.RenderTypes;
@@ -16,7 +16,7 @@ import tech.thatgravyboat.creeperoverhaul.common.utils.PlatformUtils;
 
 public class ReplacedCreeperPowerLayer extends GeoRenderLayer<ReplacedCreeper> {
 
-    private static final ResourceLocation PLAINS_CHARGED_TEXTURE = Creepers.id("textures/entity/armor/creeper_armor.png");
+    private static final Identifier PLAINS_CHARGED_TEXTURE = Creepers.id("textures/entity/armor/creeper_armor.png");
 
     private final ReplacedCreeperRenderer renderer;
 

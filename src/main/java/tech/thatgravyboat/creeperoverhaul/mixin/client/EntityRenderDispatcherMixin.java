@@ -3,8 +3,8 @@ package tech.thatgravyboat.creeperoverhaul.mixin.client;
 import java.util.Map;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.player.PlayerRenderer;
-import net.minecraft.client.resources.PlayerSkin;
+import net.minecraft.client.renderer.entity.player.AvatarRenderer;
+import net.minecraft.world.entity.player.PlayerSkin;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,7 +18,7 @@ import tech.thatgravyboat.creeperoverhaul.client.CreepersClient;
 public class EntityRenderDispatcherMixin {
 
     @Shadow
-    private Map<PlayerSkin.Model, EntityRenderer<? extends Player>> playerRenderers;
+    private Map<PlayerSkin.Model, EntityRenderer<? extends Player>> avatarRenderers;
 
     @Inject(
             method = "onResourceManagerReload",
@@ -26,7 +26,7 @@ public class EntityRenderDispatcherMixin {
     )
     private void rbees$onResourceManagerReload(ResourceManager resourceManager, CallbackInfo ci) {
         CreepersClient.registerEntityLayers(
-                id -> (PlayerRenderer) this.playerRenderers.get(id)
+                id -> (AvatarRenderer) this.avatarRenderers.get(id)
         );
     }
 }
