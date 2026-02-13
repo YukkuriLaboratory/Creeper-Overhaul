@@ -7,7 +7,6 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.item.FlintAndSteelItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShearsItem;
-import net.minecraft.world.rule.GameRules;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
@@ -22,7 +21,8 @@ public class PlatformUtils {
     }
 
     public static Level.ExplosionInteraction getInteractionForCreeper(BaseCreeper creeper) {
-        boolean destroyBlocks = creeper.level().getGameRules().getRule(GameRules.RULE_MOBGRIEFING).get() && CreepersConfig.destroyBlocks;
+        // TODO: Update for 1.21.11 - GameRules API changed
+        boolean destroyBlocks = CreepersConfig.destroyBlocks;
         return destroyBlocks ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE;
     }
 

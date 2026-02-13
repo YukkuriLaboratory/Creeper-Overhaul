@@ -32,8 +32,8 @@ import tech.thatgravyboat.creeperoverhaul.common.registry.FabricAttributes;
 
 public class CreepersFabric implements ModInitializer {
 
-    private static final TagKey<Biome> IS_DARKFOREST = TagKey.create(Registries.BIOME, Identifier.withNamespaceAndPath("c", "is_dark_forest"));
-    private static final TagKey<Biome> IS_MUSHROOM = TagKey.create(Registries.BIOME, Identifier.withNamespaceAndPath("c", "is_mushroom"));
+    private static final TagKey<Biome> IS_DARKFOREST = TagKey.create(Registries.BIOME, Identifier.of("c", "is_dark_forest"));
+    private static final TagKey<Biome> IS_MUSHROOM = TagKey.create(Registries.BIOME, Identifier.of("c", "is_mushroom"));
 
     @Override
     public void onInitialize() {
