@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.SimpleTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -26,18 +26,18 @@ public final class CosmeticTexture {
 
     private final String id;
     private final String texture;
-    private final ResourceLocation location;
+    private final Identifier location;
     private SimpleTexture img;
 
     public CosmeticTexture(String texture) {
         this.id = DownloadedAsset.getUrlHash(texture);
         this.texture = texture;
-        this.location = ResourceLocation.fromNamespaceAndPath(
+        this.location = Identifier.withNamespaceAndPath(
                 NAMESPACE, "textures/cosmetics/" + this.id
         );
     }
 
-    public ResourceLocation getResourceLocation() {
+    public Identifier getResourceLocation() {
         checkOrDownload();
         return location;
     }
@@ -63,7 +63,7 @@ public final class CosmeticTexture {
         private CompletableFuture<Void> future;
         private boolean uploaded;
 
-        public DownloadableTexture(@Nullable File file, @Nullable String url, ResourceLocation location) {
+        public DownloadableTexture(@Nullable File file, @Nullable String url, Identifier location) {
             super(location);
             this.file = file;
             this.url = url;

@@ -5,7 +5,7 @@ import com.teamresourceful.resourcefulconfig.client.components.base.SpriteButton
 import java.util.List;
 import net.minecraft.client.gui.layouts.GridLayout;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import tech.thatgravyboat.creeperoverhaul.Creepers;
 import tech.thatgravyboat.creeperoverhaul.client.cosmetics.Cosmetic;
@@ -13,7 +13,7 @@ import tech.thatgravyboat.creeperoverhaul.client.cosmetics.service.CosmeticsApi;
 
 public class CosmeticGridWidget extends ContainerWidget {
 
-    private static final ResourceLocation NONE = ResourceLocation.fromNamespaceAndPath(Creepers.MODID, "none");
+    private static final Identifier NONE = Identifier.withNamespaceAndPath(Creepers.MODID, "none");
 
     private final GridLayout layout;
     private float scrollAmount = 0;

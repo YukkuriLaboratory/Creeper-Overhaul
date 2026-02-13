@@ -4,8 +4,9 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypes;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -39,7 +40,7 @@ public class CreeperRenderer<E extends BaseCreeper> extends GeoEntityRenderer<E>
     }
 
     @Override
-    public @NotNull ResourceLocation getTextureLocation(@NotNull E entity) {
+    public @NotNull Identifier getTextureLocation(@NotNull E entity) {
         return this.model.getTextureResource(entity);
     }
 
@@ -54,7 +55,7 @@ public class CreeperRenderer<E extends BaseCreeper> extends GeoEntityRenderer<E>
     }
 
     @Override
-    public RenderType getRenderType(E animatable, ResourceLocation texture, @Nullable MultiBufferSource bufferSource, float partialTick) {
-        return RenderType.entityTranslucent(texture);
+    public RenderType getRenderType(E animatable, Identifier texture, @Nullable MultiBufferSource bufferSource, float partialTick) {
+        return RenderTypes.entityTranslucent(texture);
     }
 }

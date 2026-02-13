@@ -8,6 +8,7 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypes;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -54,7 +55,7 @@ public class CosmeticLayer extends RenderLayer<AbstractClientPlayer, PlayerModel
         cosmetic.transformation().applyTranslation(stack);
         cosmetic.transformation().applyRotation(stack);
 
-        RenderType type = RenderType.entityTranslucent(cosmetic.texture().getResourceLocation());
+        RenderType type = RenderTypes.entityTranslucent(cosmetic.texture().getResourceLocation());
         VertexConsumer consumer = source.getBuffer(type);
 
         CosmeticModel model = cosmetic.model();
