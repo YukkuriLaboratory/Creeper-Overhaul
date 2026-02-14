@@ -3,43 +3,44 @@ package tech.thatgravyboat.creeperoverhaul.client.renderer.normal;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.cache.object.BakedGeoModel;
+import software.bernie.geckolib.cache.model.BakedGeoModel;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 import tech.thatgravyboat.creeperoverhaul.common.entity.base.BaseCreeper;
 import static net.minecraft.client.renderer.entity.LivingEntityRenderer.getOverlayCoords;
 
-public class CreeperRenderer<E extends BaseCreeper> extends GeoEntityRenderer<E> {
+public class CreeperRenderer<E extends BaseCreeper> extends GeoEntityRenderer<@NotNull E, @NotNull CreeperRenderState> {
 
     public CreeperRenderer(EntityRendererProvider.Context renderManager, GeoModel<E> modelProvider) {
         super(renderManager, modelProvider);
-        addRenderLayer(new CreeperGlowLayer<>(this));
-        addRenderLayer(new CreeperPowerLayer<>(this));
+        withRenderLayer(new CreeperGlowLayer<>(this));
+        withRenderLayer(new CreeperPowerLayer<>(this));
     }
 
     @Override
-    public void render(@NotNull E creeper, float entityYaw, float partialTicks, PoseStack stack, @NotNull MultiBufferSource bufferIn, int packedLightIn) {
+    public void defaultRender(PoseStack poseStack, E creeper, MultiBufferSource bufferSource, @Nullable RenderType renderType, @Nullable VertexConsumer buffer, float yaw, float partialTick, int packedLight) {
         if (creeper.isInvisible()) return;
 
-        float f = creeper.getSwelling(partialTicks);
+        float f = creeper.getSwelling(partialTick);
         float f1 = 1.0F + Mth.sin(f * 100.0F) * f * 0.01F;
         f = Mth.clamp(f, 0.0F, 1.0F);
         f = f * f;
         f = f * f;
         float f2 = (1.0F + f * 0.4F) * f1;
         float f3 = (1.0F + f * 0.1F) / f1;
-        stack.scale(f2, f3, f2);
-        super.render(creeper, entityYaw, partialTicks, stack, bufferIn, packedLightIn);
+        poseStack.scale(f2, f3, f2);
+        super.defaultRender(poseStack, creeper, bufferSource, renderType, buffer, yaw, partialTick, packedLight);
     }
 
     @Override
-    public @NotNull ResourceLocation getTextureLocation(@NotNull E entity) {
+    public @NotNull Identifier getTextureLocation(@NotNull E entity) {
         return this.model.getTextureResource(entity);
     }
 
@@ -54,7 +55,21 @@ public class CreeperRenderer<E extends BaseCreeper> extends GeoEntityRenderer<E>
     }
 
     @Override
-    public RenderType getRenderType(E animatable, ResourceLocation texture, @Nullable MultiBufferSource bufferSource, float partialTick) {
-        return RenderType.entityTranslucent(texture);
+    public CreeperRenderState createRenderState(E animatable, @org.jspecify.annotations.Nullable Void relatedObject) {
+        return new CreeperRenderState();
+    }
+
+    @Override
+    public void extractRenderState(E entity, CreeperRenderState renderState, float partialTick) {
+        super.extractRenderState(entity, renderState, partialTick);
+
+        renderState.swelling = entity.getSwelling(partialTick);
+        renderState.isPowered = entity.isPowered();
+        renderState.type = entity.type;
+    }
+
+    @Override
+    public @org.jspecify.annotations.Nullable RenderType getRenderType(R renderState, Identifier texture) {
+        return RenderTypes.entityTranslucent(texture);
     }
 }

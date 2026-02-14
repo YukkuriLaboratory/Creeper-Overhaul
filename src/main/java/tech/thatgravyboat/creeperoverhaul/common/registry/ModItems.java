@@ -9,6 +9,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SpawnEggItem;
+import org.jetbrains.annotations.NotNull;
 import tech.thatgravyboat.creeperoverhaul.Creepers;
 
 public class ModItems {
@@ -65,7 +66,8 @@ public class ModItems {
 
     public static final Supplier<Item> TINY_CACTUS =  ITEMS.register("tiny_cactus", () -> new BlockItem(ModBlocks.TINY_CACTUS.get(), new Item.Properties()));
 
-    public static <E extends Mob, T extends EntityType<E>> SpawnEggItem createSpawnEgg(Supplier<T> entity, int primaryColor, int secondaryColor, Item.Properties properties) {
-        return new SpawnEggItem(entity.get(), primaryColor, secondaryColor, properties);
+    // Todo: move primary Color and secondary Color to datagen
+    public static <E extends Mob, T extends EntityType<@NotNull E>> SpawnEggItem createSpawnEgg(Supplier<T> entity, int primaryColor, int secondaryColor, Item.Properties properties) {
+        return new SpawnEggItem(properties.spawnEgg(entity.get()));
     }
 }

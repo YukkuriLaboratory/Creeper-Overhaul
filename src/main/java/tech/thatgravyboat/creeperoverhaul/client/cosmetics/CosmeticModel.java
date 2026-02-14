@@ -1,8 +1,9 @@
 package tech.thatgravyboat.creeperoverhaul.client.cosmetics;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.model.GeoModel;
+import software.bernie.geckolib.renderer.base.GeoRenderState;
 import tech.thatgravyboat.creeperoverhaul.Creepers;
 
 public class CosmeticModel extends GeoModel<Cosmetic> {
@@ -18,7 +19,7 @@ public class CosmeticModel extends GeoModel<Cosmetic> {
     }
 
     @Override
-    public BakedGeoModel getBakedModel(ResourceLocation location) {
+    public BakedGeoModel getBakedModel(Identifier location) {
         if (!this.loaded && this.model.isLoaded()) {
             this.getAnimationProcessor().setActiveModel(this.model.get());
             this.loaded = true;
@@ -27,18 +28,18 @@ public class CosmeticModel extends GeoModel<Cosmetic> {
     }
 
     @Override
-    public ResourceLocation getModelResource(Cosmetic animatable) {
-        return ResourceLocation.fromNamespaceAndPath(Creepers.MODID, "geo/cosmetic.geo.json");
+    public Identifier getModelResource(GeoRenderState geoRenderState) {
+        return Identifier.fromNamespaceAndPath(Creepers.MODID, "geo/cosmetic.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureResource(Cosmetic animatable) {
+    public Identifier getTextureResource(GeoRenderState geoRenderState) {
         return this.texture.getResourceLocation();
     }
 
     @Override
-    public ResourceLocation getAnimationResource(Cosmetic animatable) {
-        return ResourceLocation.fromNamespaceAndPath(Creepers.MODID, "animations/empty.animation.json");
+    public Identifier getAnimationResource(Cosmetic animatable) {
+        return Identifier.fromNamespaceAndPath(Creepers.MODID, "animations/empty.animation.json");
     }
 
     public boolean isLoaded() {

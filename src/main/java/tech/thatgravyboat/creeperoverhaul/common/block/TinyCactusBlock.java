@@ -8,15 +8,15 @@ import net.minecraft.world.item.Equipable;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.BushBlock;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.VegetationBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
-public class TinyCactusBlock extends BushBlock implements Equipable {
+public class TinyCactusBlock extends VegetationBlock implements Equipable {
 
     private static final VoxelShape SHAPE = Block.box(6, 0, 6, 10, 4, 10);
     private static final MapCodec<TinyCactusBlock> CODEC = MapCodec.unit(TinyCactusBlock::new);
@@ -32,7 +32,7 @@ public class TinyCactusBlock extends BushBlock implements Equipable {
     }
 
     @Override
-    protected @NotNull MapCodec<? extends BushBlock> codec() {
+    protected @NotNull MapCodec<? extends VegetationBlock> codec() {
         return CODEC;
     }
 

@@ -5,15 +5,17 @@ import java.util.function.Supplier;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.model.player.PlayerModel;
 import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.player.PlayerRenderer;
-import net.minecraft.client.resources.PlayerSkin;
+import net.minecraft.client.renderer.entity.player.AvatarRenderer;
+import net.minecraft.client.renderer.entity.state.AvatarRenderState;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.PlayerModelType;
 import net.minecraft.world.level.block.Block;
+import org.jetbrains.annotations.NotNull;
 import tech.thatgravyboat.creeperoverhaul.Creepers;
 import tech.thatgravyboat.creeperoverhaul.client.cosmetics.Cosmetics;
 import tech.thatgravyboat.creeperoverhaul.client.renderer.cosmetics.CosmeticLayer;
@@ -43,11 +45,11 @@ public class CreepersClient {
     }
 
     @SuppressWarnings("unchecked")
-    public static void registerEntityLayers(Function<PlayerSkin.Model, PlayerRenderer> getter) {
-        PlayerRenderer defaultRenderer = getter.apply(PlayerSkin.Model.WIDE);
-        PlayerRenderer slimRenderer = getter.apply(PlayerSkin.Model.SLIM);
-        LivingEntityRendererInvoker<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> defaultInvoker = ((LivingEntityRendererInvoker<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) defaultRenderer);
-        LivingEntityRendererInvoker<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> slimInvoker = ((LivingEntityRendererInvoker<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) slimRenderer);
+    public static void registerEntityLayers(Function<PlayerModelType, AvatarRenderer> getter) {
+        AvatarRenderer<@NotNull AbstractClientPlayer> defaultRenderer = getter.apply(PlayerModelType.WIDE);
+        AvatarRenderer<@NotNull AbstractClientPlayer> slimRenderer = getter.apply(PlayerModelType.SLIM);
+        LivingEntityRendererInvoker<AvatarRenderState, PlayerModel> defaultInvoker = ((LivingEntityRendererInvoker<AvatarRenderState, PlayerModel>) defaultRenderer);
+        LivingEntityRendererInvoker<AvatarRenderState, PlayerModel> slimInvoker = ((LivingEntityRendererInvoker<AvatarRenderState, PlayerModel>) slimRenderer);
         if (defaultRenderer != null && slimRenderer != null) {
             defaultInvoker.invokeAddLayer(new CosmeticLayer(defaultRenderer));
             slimInvoker.invokeAddLayer(new CosmeticLayer(slimRenderer));
@@ -79,7 +81,7 @@ public class CreepersClient {
     }
 
     private static <E extends BaseCreeper> EntityRendererProvider<E> createRenderer(CreeperType type) {
-        return manager -> new CreeperRenderer<>(manager, new CreeperModel<>(type));
+        return manager -> new CreeperRenderer<>(manager, new CreeperModel<>(type), manager.);
     }
 
     public static <E extends Entity> void registerRenderer(Supplier<EntityType<E>> entity, EntityRendererProvider<E> renderer) {

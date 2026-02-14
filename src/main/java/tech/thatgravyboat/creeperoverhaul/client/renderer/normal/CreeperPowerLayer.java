@@ -3,18 +3,17 @@ package tech.thatgravyboat.creeperoverhaul.client.renderer.normal;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import software.bernie.geckolib.cache.object.BakedGeoModel;
-import software.bernie.geckolib.renderer.GeoRenderer;
+import software.bernie.geckolib.cache.model.BakedGeoModel;
 import software.bernie.geckolib.renderer.layer.GeoRenderLayer;
 import tech.thatgravyboat.creeperoverhaul.client.RenderTypes;
 import tech.thatgravyboat.creeperoverhaul.common.entity.base.BaseCreeper;
 import tech.thatgravyboat.creeperoverhaul.common.utils.PlatformUtils;
 
-public class CreeperPowerLayer<E extends BaseCreeper> extends GeoRenderLayer<E> {
+public class CreeperPowerLayer<E extends BaseCreeper> extends GeoRenderLayer<E, Void, CreeperRenderState> {
 
-    public CreeperPowerLayer(GeoRenderer<E> renderer) {
+    public CreeperPowerLayer(CreeperRenderer<E> renderer) {
         super(renderer);
     }
 

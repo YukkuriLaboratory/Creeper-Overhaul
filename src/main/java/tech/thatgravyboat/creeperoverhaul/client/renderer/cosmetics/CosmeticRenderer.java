@@ -3,7 +3,7 @@ package tech.thatgravyboat.creeperoverhaul.client.renderer.cosmetics;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import software.bernie.geckolib.animation.AnimationState;

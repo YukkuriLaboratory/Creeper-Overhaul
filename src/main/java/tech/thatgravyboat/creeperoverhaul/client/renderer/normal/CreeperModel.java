@@ -1,10 +1,11 @@
 package tech.thatgravyboat.creeperoverhaul.client.renderer.normal;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.constant.DataTickets;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.model.data.EntityModelData;
+import software.bernie.geckolib.renderer.base.GeoRenderState;
 import tech.thatgravyboat.creeperoverhaul.common.entity.base.BaseCreeper;
 import tech.thatgravyboat.creeperoverhaul.common.entity.base.CreeperType;
 
@@ -17,17 +18,17 @@ public class CreeperModel<E extends BaseCreeper> extends GeoModel<E> {
     }
 
     @Override
-    public ResourceLocation getModelResource(E entity) {
+    public Identifier getModelResource(GeoRenderState geoRenderState) {
         return type.isShearable() && entity.isSheared() && type.shearedModel() != null ? type.shearedModel().apply(entity) : type.model().apply(entity);
     }
 
     @Override
-    public ResourceLocation getTextureResource(E entity) {
-        return type.texture().apply(entity);
+    public Identifier getTextureResource(GeoRenderState geoRenderState) {
+        return type.texture().apply(geoRenderState.);
     }
 
     @Override
-    public ResourceLocation getAnimationResource(E entity) {
+    public Identifier getAnimationResource(E entity) {
         return type.animation().apply(entity);
     }
 

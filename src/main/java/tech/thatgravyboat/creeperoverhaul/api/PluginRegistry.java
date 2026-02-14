@@ -3,7 +3,7 @@ package tech.thatgravyboat.creeperoverhaul.api;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.LivingEntity;
 import tech.thatgravyboat.creeperoverhaul.common.entity.base.BaseCreeper;
 
@@ -11,7 +11,7 @@ public final class PluginRegistry {
 
     private static final PluginRegistry INSTANCE = new PluginRegistry();
 
-    private final Map<ResourceLocation, CreeperPlugin> registeredPlugins = new HashMap<>();
+    private final Map<Identifier, CreeperPlugin> registeredPlugins = new HashMap<>();
     private Collection<CreeperPlugin> plugins = registeredPlugins.values();
 
     private PluginRegistry() {
@@ -34,7 +34,7 @@ public final class PluginRegistry {
         plugins = registeredPlugins.values();
     }
 
-    public CreeperPlugin getPlugin(ResourceLocation id) {
+    public CreeperPlugin getPlugin(Identifier id) {
         return registeredPlugins.get(id);
     }
 
