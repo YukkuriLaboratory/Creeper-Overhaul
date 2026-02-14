@@ -1,25 +1,17 @@
 package tech.thatgravyboat.creeperoverhaul.client;
 
-import java.util.function.Function;
 import java.util.function.Supplier;
+import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
-import net.fabricmc.fabric.api.client.rendering.v1.CoreShaderRegistrationCallback;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.PlayerModel;
-import net.minecraft.client.model.geom.ModelLayerLocation;
-import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypes;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.player.PlayerRenderer;
-import net.minecraft.client.resources.PlayerSkin;
-import net.minecraft.resources.Identifier;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Block;
+import org.jetbrains.annotations.NotNull;
 import tech.thatgravyboat.creeperoverhaul.Creepers;
-import tech.thatgravyboat.creeperoverhaul.client.cosmetics.Cosmetics;
-import tech.thatgravyboat.creeperoverhaul.client.renderer.cosmetics.CosmeticLayer;
 import tech.thatgravyboat.creeperoverhaul.client.renderer.normal.CreeperModel;
 import tech.thatgravyboat.creeperoverhaul.client.renderer.normal.CreeperRenderer;
 import tech.thatgravyboat.creeperoverhaul.client.renderer.replaced.ReplacedCreeperRenderer;
@@ -31,13 +23,11 @@ import tech.thatgravyboat.creeperoverhaul.common.network.NetworkHandler;
 import tech.thatgravyboat.creeperoverhaul.common.network.packets.ServerboundCosmeticPacket;
 import tech.thatgravyboat.creeperoverhaul.common.registry.ModBlocks;
 import tech.thatgravyboat.creeperoverhaul.common.registry.ModEntities;
-import tech.thatgravyboat.creeperoverhaul.mixin.client.LivingEntityRendererInvoker;
 
 public class CreepersClient {
 
     public static void init() {
         Creepers.CONFIGURATOR.register(ClientConfig.class);
-        Cosmetics.init();
 
         ClientConfig.showCosmetic.addListener((oldValue, newValue) -> {
             if (Minecraft.getInstance().level == null) return;
@@ -45,17 +35,16 @@ public class CreepersClient {
         });
     }
 
-    @SuppressWarnings("unchecked")
-    public static void registerEntityLayers(Function<PlayerSkin.Model, PlayerRenderer> getter) {
-        PlayerRenderer defaultRenderer = getter.apply(PlayerSkin.Model.WIDE);
-        PlayerRenderer slimRenderer = getter.apply(PlayerSkin.Model.SLIM);
-        LivingEntityRendererInvoker<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> defaultInvoker = ((LivingEntityRendererInvoker<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) defaultRenderer);
-        LivingEntityRendererInvoker<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> slimInvoker = ((LivingEntityRendererInvoker<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) slimRenderer);
-        if (defaultRenderer != null && slimRenderer != null) {
-            defaultInvoker.invokeAddLayer(new CosmeticLayer(defaultRenderer));
-            slimInvoker.invokeAddLayer(new CosmeticLayer(slimRenderer));
-        }
-    }
+//    public static void registerEntityLayers(Function<PlayerModelType, AvatarRenderer<@NotNull AbstractClientPlayer>> getter) {
+//        AvatarRenderer<@NotNull AbstractClientPlayer> defaultRenderer = getter.apply(PlayerModelType.WIDE);
+//        AvatarRenderer<@NotNull AbstractClientPlayer> slimRenderer = getter.apply(PlayerModelType.SLIM);
+//        LivingEntityRendererInvoker defaultInvoker = (LivingEntityRendererInvoker) defaultRenderer;
+//        LivingEntityRendererInvoker slimInvoker = (LivingEntityRendererInvoker) slimRenderer;
+//        if (defaultRenderer != null && slimRenderer != null) {
+//            defaultInvoker.invokeAddLayer(new CosmeticLayer(defaultRenderer));
+//            slimInvoker.invokeAddLayer(new CosmeticLayer(slimRenderer));
+//        }
+//    }
 
     public static void registerRenderers() {
         registerRenderer(ModEntities.JUNGLE_CREEPER, createRenderer(CreeperTypes.JUNGLE));
@@ -77,11 +66,11 @@ public class CreepersClient {
         if (ClientConfig.replaceDefaultCreeper) {
             registerRenderer(EntityType.CREEPER, ReplacedCreeperRenderer::new);
         }
-        registerBlockRenderType(ModBlocks.TINY_CACTUS, RenderTypes.cutout());
-        registerBlockRenderType(ModBlocks.POTTED_TINY_CACTUS, RenderTypes.cutout());
+        registerBlockRenderType(ModBlocks.TINY_CACTUS, RenderTypes.cutoutMovingBlock());
+        registerBlockRenderType(ModBlocks.POTTED_TINY_CACTUS, RenderTypes.cutoutMovingBlock());
     }
 
-    private static <E extends BaseCreeper> EntityRendererProvider<E> createRenderer(CreeperType type) {
+    private static <E extends BaseCreeper> EntityRendererProvider<@NotNull E> createRenderer(CreeperType type) {
         return manager -> new CreeperRenderer<>(manager, new CreeperModel<>(type));
     }
 
@@ -94,6 +83,6 @@ public class CreepersClient {
     }
 
     public static void registerBlockRenderType(Supplier<Block> block, RenderType type) {
-        BlockRenderLayerMap.INSTANCE.putBlock(block.get(), type);
+        BlockRenderLayerMap.putBlock(block.get(), type);
     }
 }

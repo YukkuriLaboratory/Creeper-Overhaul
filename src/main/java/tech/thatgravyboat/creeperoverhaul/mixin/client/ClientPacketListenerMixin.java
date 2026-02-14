@@ -22,7 +22,7 @@ public abstract class ClientPacketListenerMixin extends ClientCommonPacketListen
 
     @Inject(method = "handleLogin", at = @At("TAIL"))
     private void onPlayerJoin(CallbackInfo ci) {
-        this.minecraft.tell(() -> NetworkHandler.NETWORK.sendToServer(
+        this.minecraft.execute(() -> NetworkHandler.NETWORK.sendToServer(
                 new ServerboundCosmeticPacket(ClientConfig.showCosmetic.get())
         ));
     }

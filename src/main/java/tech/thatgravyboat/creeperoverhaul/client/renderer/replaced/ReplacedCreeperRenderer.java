@@ -3,13 +3,14 @@ package tech.thatgravyboat.creeperoverhaul.client.renderer.replaced;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypes;
+import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.monster.Creeper;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.renderer.GeoReplacedEntityRenderer;
@@ -37,9 +38,8 @@ public class ReplacedCreeperRenderer extends GeoReplacedEntityRenderer<Creeper, 
     }
 
     @Override
-    public void render(Creeper entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
-        if (entity.isInvisible()) return;
-        super.render(entity, entityYaw, partialTick, poseStack, bufferSource, packedLight);
+    public boolean shouldRender(Entity entity, Frustum frustum, double d, double e, double f) {
+        return !entity.isInvisible() && super.shouldRender(entity, frustum, d, e, f);
     }
 
     @Override
@@ -58,8 +58,8 @@ public class ReplacedCreeperRenderer extends GeoReplacedEntityRenderer<Creeper, 
     }
 
     @Override
-    public boolean shouldShowName(@NotNull Creeper entity) {
-        if (this.currentEntity == null) return false;
-        return super.shouldShowName(entity);
+    protected boolean shouldShowName(Entity entity, double d) {
+        if(this.currentEntity == null) return false;
+        return super.shouldShowName(entity, d);
     }
 }

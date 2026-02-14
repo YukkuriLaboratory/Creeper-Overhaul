@@ -47,7 +47,7 @@ public class WaterCreeper extends BaseCreeper {
     public void baseTick() {
         int i = this.getAirSupply();
         super.baseTick();
-        if (this.isAlive() && !this.isInWaterOrBubble()) {
+        if (this.isAlive() && !this.isInShallowWater()) {
             this.setAirSupply(i - 1);
             if (this.getAirSupply() == -20) {
                 this.setAirSupply(0);
