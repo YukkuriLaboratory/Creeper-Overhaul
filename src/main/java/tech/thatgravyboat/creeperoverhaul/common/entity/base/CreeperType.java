@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
@@ -23,12 +23,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 
 public record CreeperType(
-        Function<BaseCreeper, ResourceLocation> texture,
-        Function<BaseCreeper, ResourceLocation> glowingTexture,
-        Function<BaseCreeper, ResourceLocation> chargedTexture,
-        Function<BaseCreeper, ResourceLocation> model,
-        Function<BaseCreeper, ResourceLocation> shearedModel,
-        Function<BaseCreeper, ResourceLocation> animation,
+        Function<BaseCreeper, Identifier> texture,
+        Function<BaseCreeper, Identifier> glowingTexture,
+        Function<BaseCreeper, Identifier> chargedTexture,
+        Function<BaseCreeper, Identifier> model,
+        Function<BaseCreeper, Identifier> shearedModel,
+        Function<BaseCreeper, Identifier> animation,
         int melee,
         Map<Predicate<BlockState>, Function<RandomSource, BlockState>> replacer,
         Collection<EntityType<?>> entitiesAfraidOf,
@@ -84,12 +84,12 @@ public record CreeperType(
     }
 
     public static class Builder {
-        private Function<BaseCreeper, ResourceLocation> texture;
-        private Function<BaseCreeper, ResourceLocation> glowingTexture;
-        private Function<BaseCreeper, ResourceLocation> chargedTexture;
-        private Function<BaseCreeper, ResourceLocation> model;
-        private Function<BaseCreeper, ResourceLocation> shearedModel;
-        private Function<BaseCreeper, ResourceLocation> animation;
+        private Function<BaseCreeper, Identifier> texture;
+        private Function<BaseCreeper, Identifier> glowingTexture;
+        private Function<BaseCreeper, Identifier> chargedTexture;
+        private Function<BaseCreeper, Identifier> model;
+        private Function<BaseCreeper, Identifier> shearedModel;
+        private Function<BaseCreeper, Identifier> animation;
         private int melee = 0;
         private final List<EntityType<?>> afraidOf = new ArrayList<>();
         private final List<MobEffectInstance> inflictingPotions = new ArrayList<>();
@@ -110,58 +110,58 @@ public record CreeperType(
 
         private BooleanSupplier canSpawn = () -> true;
 
-        public Builder setTexture(ResourceLocation texture) {
+        public Builder setTexture(Identifier texture) {
             this.texture = creeper -> texture;
             return this;
         }
 
-        public Builder setTexture(Function<BaseCreeper, ResourceLocation> texture) {
+        public Builder setTexture(Function<BaseCreeper, Identifier> texture) {
             this.texture = texture;
             return this;
         }
 
-        public Builder setGlowingTexture(Function<BaseCreeper, ResourceLocation> glowingTexture) {
+        public Builder setGlowingTexture(Function<BaseCreeper, Identifier> glowingTexture) {
             this.glowingTexture = glowingTexture;
             return this;
         }
 
-        public Builder setGlowingTexture(ResourceLocation glowingTexture) {
+        public Builder setGlowingTexture(Identifier glowingTexture) {
             return setGlowingTexture(creeper -> glowingTexture);
         }
 
-        public Builder setChargedTexture(Function<BaseCreeper, ResourceLocation> chargedTexture) {
+        public Builder setChargedTexture(Function<BaseCreeper, Identifier> chargedTexture) {
             this.chargedTexture = chargedTexture;
             return this;
         }
 
-        public Builder setChargedTexture(ResourceLocation chargedTexture) {
+        public Builder setChargedTexture(Identifier chargedTexture) {
             return setChargedTexture(creeper -> chargedTexture);
         }
 
-        public Builder setModel(Function<BaseCreeper, ResourceLocation> model) {
+        public Builder setModel(Function<BaseCreeper, Identifier> model) {
             this.model = model;
             return this;
         }
 
-        public Builder setModel(ResourceLocation model) {
+        public Builder setModel(Identifier model) {
             return setModel(creeper -> model);
         }
 
-        public Builder setShearedModel(Function<BaseCreeper, ResourceLocation> shearedModel) {
+        public Builder setShearedModel(Function<BaseCreeper, Identifier> shearedModel) {
             this.shearedModel = shearedModel;
             return this;
         }
 
-        public Builder setShearedModel(ResourceLocation shearedModel) {
+        public Builder setShearedModel(Identifier shearedModel) {
             return setShearedModel(creeper -> shearedModel);
         }
 
-        public Builder setAnimation(Function<BaseCreeper, ResourceLocation> animation) {
+        public Builder setAnimation(Function<BaseCreeper, Identifier> animation) {
             this.animation = animation;
             return this;
         }
 
-        public Builder setAnimation(ResourceLocation animation) {
+        public Builder setAnimation(Identifier animation) {
             return setAnimation(creeper -> animation);
         }
 

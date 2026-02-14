@@ -7,8 +7,8 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.item.FlintAndSteelItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShearsItem;
-import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.gamerules.GameRules;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 import tech.thatgravyboat.creeperoverhaul.common.config.CreepersConfig;
@@ -22,7 +22,7 @@ public class PlatformUtils {
     }
 
     public static Level.ExplosionInteraction getInteractionForCreeper(BaseCreeper creeper) {
-        boolean destroyBlocks = creeper.level().getGameRules().getRule(GameRules.RULE_MOBGRIEFING).get() && CreepersConfig.destroyBlocks;
+        boolean destroyBlocks = creeper.level().getGameRules().getRule(GameRules.MOB_GRIEFING).get() && CreepersConfig.destroyBlocks;
         return destroyBlocks ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE;
     }
 

@@ -14,7 +14,7 @@ import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRe
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBiomeTags;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -26,14 +26,14 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.levelgen.Heightmap;
 import tech.thatgravyboat.creeperoverhaul.common.entity.base.BaseCreeper;
+import tech.thatgravyboat.creeperoverhaul.common.registry.FabricAttributes;
 import tech.thatgravyboat.creeperoverhaul.common.registry.ModEntities;
 import tech.thatgravyboat.creeperoverhaul.common.registry.ModSpawns;
-import tech.thatgravyboat.creeperoverhaul.common.registry.FabricAttributes;
 
 public class CreepersFabric implements ModInitializer {
 
-    private static final TagKey<Biome> IS_DARKFOREST = TagKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath("c", "is_dark_forest"));
-    private static final TagKey<Biome> IS_MUSHROOM = TagKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath("c", "is_mushroom"));
+    private static final TagKey<Biome> IS_DARKFOREST = TagKey.create(Registries.BIOME, Identifier.fromNamespaceAndPath("c", "is_dark_forest"));
+    private static final TagKey<Biome> IS_MUSHROOM = TagKey.create(Registries.BIOME, Identifier.fromNamespaceAndPath("c", "is_mushroom"));
 
     @Override
     public void onInitialize() {
@@ -134,7 +134,7 @@ public class CreepersFabric implements ModInitializer {
     }
 
     private void removeCreeper(Predicate<BiomeSelectionContext> biomeSelector) {
-        ResourceLocation id = BuiltInRegistries.ENTITY_TYPE.getKey(EntityType.CREEPER);
+        Identifier id = BuiltInRegistries.ENTITY_TYPE.getKey(EntityType.CREEPER);
 
         BiomeModifications.create(id).add(ModificationPhase.REMOVALS, biomeSelector,
                 context -> context.getSpawnSettings().removeSpawnsOfEntityType(EntityType.CREEPER));
