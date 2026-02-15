@@ -40,8 +40,8 @@ public class CreeperRenderer<E extends BaseCreeper> extends GeoEntityRenderer<@N
     }
 
     @Override
-    public @NotNull Identifier getTextureLocation(@NotNull E entity) {
-        return this.model.getTextureResource(entity);
+    public Identifier getTextureLocation(@NotNull CreeperRenderState renderState) {
+        return this.model.getTextureResource(renderState);
     }
 
     @Override
@@ -66,10 +66,12 @@ public class CreeperRenderer<E extends BaseCreeper> extends GeoEntityRenderer<@N
         renderState.swelling = entity.getSwelling(partialTick);
         renderState.isPowered = entity.isPowered();
         renderState.type = entity.type;
+        renderState.isSheared = entity.isSheared();
+        renderState.baseCreeper = entity; // Yeah, I know we shouldn't do something like this.
     }
 
     @Override
-    public @org.jspecify.annotations.Nullable RenderType getRenderType(R renderState, Identifier texture) {
+    public @org.jspecify.annotations.Nullable RenderType getRenderType(CreeperRenderState renderState, Identifier texture) {
         return RenderTypes.entityTranslucent(texture);
     }
 }

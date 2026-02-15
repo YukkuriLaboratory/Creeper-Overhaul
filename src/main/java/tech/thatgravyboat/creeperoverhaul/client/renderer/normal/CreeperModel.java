@@ -19,7 +19,8 @@ public class CreeperModel<E extends BaseCreeper> extends GeoModel<E> {
 
     @Override
     public Identifier getModelResource(GeoRenderState geoRenderState) {
-        return type.isShearable() && entity.isSheared() && type.shearedModel() != null ? type.shearedModel().apply(entity) : type.model().apply(entity);
+        if(!(geoRenderState instanceof CreeperRenderState creeperRenderState)) return Identifier.withDefaultNamespace("none");
+        return type.isShearable() && creeperRenderState.isSheared && type.shearedModel() != null ? type.shearedModel().apply(creeperRenderState.baseCreeper) : type.model().apply(creeperRenderState.baseCreeper);
     }
 
     @Override
