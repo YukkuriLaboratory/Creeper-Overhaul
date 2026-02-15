@@ -25,7 +25,8 @@ public class CreeperModel<E extends BaseCreeper> extends GeoModel<E> {
 
     @Override
     public Identifier getTextureResource(GeoRenderState geoRenderState) {
-        return type.texture().apply(geoRenderState.);
+        if(!(geoRenderState instanceof CreeperRenderState creeperRenderState)) return Identifier.withDefaultNamespace("none");
+        return type.texture().apply(creeperRenderState.baseCreeper);
     }
 
     @Override

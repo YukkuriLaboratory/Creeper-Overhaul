@@ -81,7 +81,7 @@ public class CreepersClient {
     }
 
     private static <E extends BaseCreeper> EntityRendererProvider<E> createRenderer(CreeperType type) {
-        return manager -> new CreeperRenderer<>(manager, new CreeperModel<>(type), manager.);
+        return manager -> new CreeperRenderer<>(manager, new CreeperModel<>(type));
     }
 
     public static <E extends Entity> void registerRenderer(Supplier<EntityType<E>> entity, EntityRendererProvider<E> renderer) {

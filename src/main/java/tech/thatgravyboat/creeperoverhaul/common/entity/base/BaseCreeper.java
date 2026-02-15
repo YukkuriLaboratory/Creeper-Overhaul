@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.stream.Stream;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -17,6 +16,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -41,16 +41,17 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.animatable.manager.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.AnimationProcessor;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
+import software.bernie.geckolib.animation.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 import tech.thatgravyboat.creeperoverhaul.api.PluginRegistry;
 import tech.thatgravyboat.creeperoverhaul.common.entity.goals.CreeperAvoidEntitiesGoal;
@@ -74,7 +75,7 @@ public class BaseCreeper extends Creeper implements GeoEntity, Shearable {
     public BaseCreeper(EntityType<? extends Creeper> entityType, Level level, CreeperType type) {
         super(entityType, level);
         this.type = type;
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             this.type.entities().forEach(e -> this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, e, true)));
         }
     }
@@ -104,9 +105,9 @@ public class BaseCreeper extends Creeper implements GeoEntity, Shearable {
     }
 
     protected void registerAttackGoals() {
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true, entity ->
-                PluginRegistry.getInstance().canAttack(this, entity)
-        ));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true, (livingEntity, serverLevel) ->
+                PluginRegistry.getInstance().canAttack(this, livingEntity))
+        );
         this.goalSelector.addGoal(4, new CreeperMeleeAttackGoal(this, 1.0, false));
     }
 
@@ -143,18 +144,18 @@ public class BaseCreeper extends Creeper implements GeoEntity, Shearable {
 
     //region NBT
     @Override
-    public void addAdditionalSaveData(@NotNull CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putBoolean("Sheared", isSheared());
-        tag.putShort("Fuse", (short)this.maxSwell);
+    protected void addAdditionalSaveData(ValueOutput valueOutput) {
+        super.addAdditionalSaveData(valueOutput);
+        valueOutput.putBoolean("Sheared", isSheared());
+        valueOutput.putShort("Fuse", (short)this.maxSwell);
     }
 
     @Override
-    public void readAdditionalSaveData(@NotNull CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        setSheared(tag.getBoolean("Sheared"));
-        if (tag.contains("Fuse", 99)) {
-            this.maxSwell = tag.getShort("Fuse");
+    protected void readAdditionalSaveData(@NotNull ValueInput valueInput) {
+        super.readAdditionalSaveData(valueInput);
+        setSheared(valueInput.getBooleanOr("Sheared", false));
+        if(valueInput.contains("Fuse")) {
+            this.maxSwell = valueInput.getShortOr("Fuse", (short) -1);
         }
     }
     //endregion
@@ -198,7 +199,7 @@ public class BaseCreeper extends Creeper implements GeoEntity, Shearable {
     }
 
     public void explode() {
-        if (!this.level().isClientSide) {
+        if (!this.level().isClientSide()) {
             Level.ExplosionInteraction interaction = PlatformUtils.getInteractionForCreeper(this);
             this.dead = true;
             Explosion explosion = this.level().explode(this, this.getX(), this.getY(), this.getZ(), 3f * (this.isPowered() ? 2.0f : 1.0f), interaction);
@@ -392,7 +393,7 @@ public class BaseCreeper extends Creeper implements GeoEntity, Shearable {
     //endregion
 
     @Override
-    public void shear(SoundSource soundSource) {
+    public void shear(ServerLevel serverLevel, SoundSource soundSource, ItemStack itemStack) {
         this.level().playSound(null, this, SoundEvents.SNOW_GOLEM_SHEAR, soundSource, 1.0F, 1.0F);
         if (!this.level().isClientSide()) {
             this.spawnAtLocation(this.type.shearDrop().get(), 1.7F);
