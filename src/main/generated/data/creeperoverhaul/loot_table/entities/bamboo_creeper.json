@@ -38,14 +38,14 @@
           "condition": "minecraft:entity_properties",
           "entity": "attacker",
           "predicate": {
-            "type": "minecraft:skeleton"
+            "type": "#minecraft:skeletons"
           }
         }
       ],
       "entries": [
         {
           "type": "minecraft:tag",
-          "expand": false,
+          "expand": true,
           "name": "minecraft:creeper_drop_music_discs"
         }
       ],
