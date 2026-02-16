@@ -1,8 +1,11 @@
 package tech.thatgravyboat.creeperoverhaul.common.config;
 
-import com.teamresourceful.resourcefulconfig.api.annotations.*;
+import com.teamresourceful.resourcefulconfig.api.annotations.Comment;
+import com.teamresourceful.resourcefulconfig.api.annotations.Config;
+import com.teamresourceful.resourcefulconfig.api.annotations.ConfigEntry;
+import com.teamresourceful.resourcefulconfig.api.annotations.ConfigInfo;
+import com.teamresourceful.resourcefulconfig.api.annotations.ConfigOption;
 import com.teamresourceful.resourcefulconfig.api.types.entries.Observable;
-import tech.thatgravyboat.creeperoverhaul.client.cosmetics.ui.CosmeticsUI;
 
 @Config("crepperoverhaul-client")
 @ConfigInfo(
@@ -29,8 +32,4 @@ public final class ClientConfig {
     @ConfigEntry(id = "showCosmetic", translation = "Show Cosmetic")
     @Comment("Shows your cosmetic on your player for others.")
     public static Observable<Boolean> showCosmetic = Observable.of(true);
-
-    @ConfigButton(title = "Open Cosmetics", text = "Open")
-    @Comment("Opens the cosmetics screen to select your cosmetic.")
-    public static final Runnable openCosmeticsScreen = CosmeticsUI::open;
 }

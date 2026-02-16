@@ -9,9 +9,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import tech.thatgravyboat.creeperoverhaul.common.config.ClientConfig;
-import tech.thatgravyboat.creeperoverhaul.common.network.NetworkHandler;
-import tech.thatgravyboat.creeperoverhaul.common.network.packets.ServerboundCosmeticPacket;
 
 @Mixin(ClientPacketListener.class)
 public abstract class ClientPacketListenerMixin extends ClientCommonPacketListenerImpl {
@@ -22,8 +19,8 @@ public abstract class ClientPacketListenerMixin extends ClientCommonPacketListen
 
     @Inject(method = "handleLogin", at = @At("TAIL"))
     private void onPlayerJoin(CallbackInfo ci) {
-        this.minecraft.execute(() -> NetworkHandler.NETWORK.sendToServer(
-                new ServerboundCosmeticPacket(ClientConfig.showCosmetic.get())
-        ));
+//        this.minecraft.execute(() -> NetworkHandler.NETWORK.sendToServer(
+//                new ServerboundCosmeticPacket(ClientConfig.showCosmetic.get())
+//        ));
     }
 }
