@@ -1,6 +1,7 @@
 package tech.thatgravyboat.creeperoverhaul.client.renderer.normal;
 
 import net.minecraft.resources.Identifier;
+import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.base.GeoRenderState;
 import tech.thatgravyboat.creeperoverhaul.common.entity.base.BaseCreeper;
@@ -33,7 +34,7 @@ public class CreeperModel<E extends BaseCreeper> extends GeoModel<E> {
     }
 
     @Override
-    public Identifier getAnimationResource(E entity) {
+    public @NotNull Identifier getAnimationResource(E entity) {
         return type.animation().apply(entity);
     }
 }
