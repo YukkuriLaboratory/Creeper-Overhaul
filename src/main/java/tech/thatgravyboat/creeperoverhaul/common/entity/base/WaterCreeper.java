@@ -12,11 +12,8 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
-import software.bernie.geckolib.animatable.GeoAnimatable;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationProcessor;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
+import software.bernie.geckolib.animation.object.PlayState;
+import software.bernie.geckolib.animation.state.AnimationTest;
 import tech.thatgravyboat.creeperoverhaul.common.entity.goals.WaterCreeperMoveControl;
 import tech.thatgravyboat.creeperoverhaul.common.utils.AnimationConstants;
 
@@ -34,7 +31,7 @@ public class WaterCreeper extends BaseCreeper {
     }
 
     @Override
-    protected void registerMovementGoals() {
+    protected void registerGoals() {
         this.goalSelector.addGoal(5, new RandomSwimmingGoal(this, 1.0, 40));
     }
 
@@ -47,7 +44,7 @@ public class WaterCreeper extends BaseCreeper {
     public void baseTick() {
         int i = this.getAirSupply();
         super.baseTick();
-        if (this.isAlive() && !this.isInWaterOrBubble()) {
+        if (this.isAlive() && !this.isInWater()) {
             this.setAirSupply(i - 1);
             if (this.getAirSupply() == -20) {
                 this.setAirSupply(0);
@@ -89,21 +86,21 @@ public class WaterCreeper extends BaseCreeper {
     }
 
     @Override
-    protected <E extends GeoAnimatable> PlayState animate(AnimationState<E> event) {
-        AnimationProcessor.QueuedAnimation animation = event.getController().getCurrentAnimation();
+    protected PlayState animate(AnimationTest<@NotNull BaseCreeper> state) {
+//        RawAnimation animation = state
         if (isAttacking()) {
-            event.getController().setAnimation(AnimationConstants.ATTACK);
+            state.setAnimation(AnimationConstants.ATTACK);
             return PlayState.CONTINUE;
-        } else if (animation != null && animation.animation().name().equals("animation.creeper.attack") && event.getController().getAnimationState().equals(AnimationController.State.RUNNING)) {
-            return PlayState.CONTINUE;
+//        } else if (animation != null && animation.animation().name().equals("animation.creeper.attack") && event.getController().getAnimationState().equals(AnimationController.State.RUNNING)) {
+//            return PlayState.CONTINUE;
         } else if (!isInWater()) {
-            event.getController().setAnimation(AnimationConstants.FLOP);
+            state.setAnimation(AnimationConstants.FLOP);
             return PlayState.CONTINUE;
-        } else if (event.isMoving()) {
-            event.getController().setAnimation(AnimationConstants.SWIM);
+        } else if (state.isMoving()) {
+            state.setAnimation(AnimationConstants.SWIM);
             return PlayState.CONTINUE;
         } else {
-            event.getController().setAnimation(AnimationConstants.IDLE);
+            state.setAnimation(AnimationConstants.IDLE);
         }
         return PlayState.STOP;
     }

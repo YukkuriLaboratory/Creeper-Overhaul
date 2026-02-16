@@ -3,12 +3,15 @@ package tech.thatgravyboat.creeperoverhaul.common.registry;
 import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistries;
 import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistry;
 import java.util.function.Supplier;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.world.item.equipment.Equippable;
 import org.jetbrains.annotations.NotNull;
 import tech.thatgravyboat.creeperoverhaul.Creepers;
 
@@ -64,7 +67,7 @@ public class ModItems {
     public static final Supplier<SpawnEggItem> BIRCH_SPAWN_EGG = ITEMS.register("birch_creeper_spawn_egg", () -> createSpawnEgg(
             ModEntities.BIRCH_CREEPER, 0xE1D6C9, 0x36342A, new Item.Properties()));
 
-    public static final Supplier<Item> TINY_CACTUS =  ITEMS.register("tiny_cactus", () -> new BlockItem(ModBlocks.TINY_CACTUS.get(), new Item.Properties()));
+    public static final Supplier<Item> TINY_CACTUS =  ITEMS.register("tiny_cactus", () -> new BlockItem(ModBlocks.TINY_CACTUS.get(), new Item.Properties().component(DataComponents.EQUIPPABLE, Equippable.builder(EquipmentSlot.HEAD).build())));
 
     // Todo: move primary Color and secondary Color to datagen
     public static <E extends Mob, T extends EntityType<@NotNull E>> SpawnEggItem createSpawnEgg(Supplier<T> entity, int primaryColor, int secondaryColor, Item.Properties properties) {

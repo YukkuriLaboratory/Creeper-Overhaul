@@ -1,7 +1,7 @@
 package tech.thatgravyboat.creeperoverhaul.client.cosmetics;
 
 import net.minecraft.resources.Identifier;
-import software.bernie.geckolib.cache.object.BakedGeoModel;
+import software.bernie.geckolib.cache.model.BakedGeoModel;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.base.GeoRenderState;
 import tech.thatgravyboat.creeperoverhaul.Creepers;
@@ -20,10 +20,6 @@ public class CosmeticModel extends GeoModel<Cosmetic> {
 
     @Override
     public BakedGeoModel getBakedModel(Identifier location) {
-        if (!this.loaded && this.model.isLoaded()) {
-            this.getAnimationProcessor().setActiveModel(this.model.get());
-            this.loaded = true;
-        }
         return this.model.get();
     }
 

@@ -2,14 +2,14 @@ package tech.thatgravyboat.creeperoverhaul.client.cosmetics;
 
 import com.google.gson.JsonObject;
 import net.minecraft.util.GsonHelper;
+import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.animatable.manager.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.animation.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
-import software.bernie.geckolib.util.RenderUtil;
 
 public class Cosmetic implements GeoAnimatable {
 
@@ -57,20 +57,15 @@ public class Cosmetic implements GeoAnimatable {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "controller", 0, event -> {
-            event.getController().setAnimation(ANIMATION);
+        controllers.add(new AnimationController<>("controller", 0, event -> {
+            event.setAnimation(ANIMATION);
             return PlayState.CONTINUE;
         }));
     }
 
     @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
+    public @NotNull AnimatableInstanceCache getAnimatableInstanceCache() {
         return this.factory;
-    }
-
-    @Override
-    public double getTick(Object object) {
-        return RenderUtil.getCurrentTick();
     }
 
     public String id() {

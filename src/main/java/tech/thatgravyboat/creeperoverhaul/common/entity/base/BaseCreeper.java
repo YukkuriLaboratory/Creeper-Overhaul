@@ -56,7 +56,7 @@ public class BaseCreeper extends Creeper implements GeoEntity, Shearable {
     // GeckoLib5 Animation Section
     // -----------------------------
 
-    private PlayState animate(AnimationTest<@NotNull BaseCreeper> state) {
+    protected PlayState animate(AnimationTest<@NotNull BaseCreeper> state) {
         if (isAttacking()) {
             state.setAnimation(ATTACK);
         } else if (state.isMoving()) {
