@@ -12,6 +12,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
@@ -19,8 +20,11 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.LootTable;
+import org.jetbrains.annotations.NotNull;
 
 public record CreeperType(
         Function<BaseCreeper, Identifier> texture,
@@ -47,8 +51,9 @@ public record CreeperType(
         Function<BaseCreeper, SoundEvent> swimSound,
         Function<BaseCreeper, SoundEvent> flopSound,
 
-        BooleanSupplier canSpawn
-) {
+        BooleanSupplier canSpawn,
+        ResourceKey<@NotNull LootTable> lootKey,
+        Supplier<Item> bombSupplier) {
 
     public Optional<SoundEvent> getDeathSound(BaseCreeper creeper) {
         return Optional.ofNullable(deathSound.apply(creeper));
@@ -90,6 +95,8 @@ public record CreeperType(
         private Function<BaseCreeper, Identifier> model;
         private Function<BaseCreeper, Identifier> shearedModel;
         private Function<BaseCreeper, Identifier> animation;
+        private ResourceKey<@NotNull LootTable> lootKey;
+        private Supplier<Item> bombSupplier = null;
         private int melee = 0;
         private final List<EntityType<?>> afraidOf = new ArrayList<>();
         private final List<MobEffectInstance> inflictingPotions = new ArrayList<>();
@@ -109,6 +116,16 @@ public record CreeperType(
         private Function<BaseCreeper, SoundEvent> flopSound = creeper -> SoundEvents.GUARDIAN_FLOP;
 
         private BooleanSupplier canSpawn = () -> true;
+
+        public Builder setLootKey(ResourceKey<@NotNull LootTable> lootKey) {
+            this.lootKey = lootKey;
+            return this;
+        }
+
+        public Builder setBombSupplier(Supplier<Item> bombSupplier) {
+            this.bombSupplier = bombSupplier;
+            return this;
+        }
 
         public Builder setTexture(Identifier texture) {
             this.texture = creeper -> texture;
@@ -279,7 +296,7 @@ public record CreeperType(
         }
 
         public CreeperType build() {
-            return new CreeperType(texture, glowingTexture, chargedTexture, model, shearedModel, animation, melee, replacer, afraidOf, inflictingPotions, potionsWhenDying, attackingEntities, immunities, attributes, shearable, deathSound, explosionSound, hitSound, hurtSound, primeSound, swimSound, flopSound, canSpawn);
+            return new CreeperType(texture, glowingTexture, chargedTexture, model, shearedModel, animation, melee, replacer, afraidOf, inflictingPotions, potionsWhenDying, attackingEntities, immunities, attributes, shearable, deathSound, explosionSound, hitSound, hurtSound, primeSound, swimSound, flopSound, canSpawn, lootKey, bombSupplier);
         }
     }
 

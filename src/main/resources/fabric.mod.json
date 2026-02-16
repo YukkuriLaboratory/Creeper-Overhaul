@@ -32,6 +32,7 @@
 		"fabric-api": "*",
 		"geckolib": "*",
 		"resourcefullib": "*",
-		"resourcefulconfig": ">=3.0.8"
+		"resourcefulconfig": ">=3.0.8",
+		"blast": "*"
 	}
 }
