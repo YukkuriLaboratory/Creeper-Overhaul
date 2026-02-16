@@ -47,7 +47,19 @@ public class BaseCreeper extends Creeper implements GeoEntity, Shearable {
     private int maxSwell = 30;
     public final CreeperType type;
 
-    public BaseCreeper(EntityType<? extends Creeper> entityType, Level level, CreeperType type) {
+    public static EntityType.EntityFactory<@NotNull BaseCreeper> of(CreeperType type) {
+        return (entityType, level) -> new BaseCreeper(entityType, level, type);
+    }
+
+    public static EntityType.EntityFactory<@NotNull PassiveCreeper> ofPassive(CreeperType type) {
+        return (entityType, level) -> new PassiveCreeper(entityType, level, type);
+    }
+
+    public static EntityType.EntityFactory<@NotNull NeutralCreeper> ofNeutral(CreeperType type) {
+        return (entityType, level) -> new NeutralCreeper(entityType, level, type);
+    }
+
+    public BaseCreeper(EntityType<? extends @NotNull Creeper> entityType, Level level, CreeperType type) {
         super(entityType, level);
         this.type = type;
     }
@@ -114,6 +126,14 @@ public class BaseCreeper extends Creeper implements GeoEntity, Shearable {
     @Override
     public float getSwelling(float partialTicks) {
         return Mth.lerp(partialTicks, (float) oldSwell, (float) swell) / (maxSwell - 2f);
+    }
+
+    public boolean canSwell() {
+        return isExplodingCreeper();
+    }
+
+    public boolean isExplodingCreeper() {
+        return this.type.melee() == 0;
     }
 
     // -----------------------------
