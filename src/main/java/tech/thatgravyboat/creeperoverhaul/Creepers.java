@@ -2,10 +2,19 @@ package tech.thatgravyboat.creeperoverhaul;
 
 import com.teamresourceful.resourcefulconfig.api.loader.Configurator;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceWithEnchantedBonusCondition;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import org.jetbrains.annotations.NotNull;
 import tech.thatgravyboat.creeperoverhaul.common.config.CreepersConfig;
 import tech.thatgravyboat.creeperoverhaul.common.entity.CreeperTypes;
@@ -31,6 +40,27 @@ public class Creepers {
         ModCreativeTabs.CREATIVE_TABS.init();
         ModItems.ITEMS.init();
         ModSounds.SOUNDS.init();
+
+        modifyLootTables();
+    }
+
+    public static void modifyLootTables() {
+        ConcurrentHashMap<ResourceKey<@NotNull LootTable>, CreeperType> creeperMap = new ConcurrentHashMap<>();
+        CreeperTypes.entries.forEach(t -> creeperMap.put(t.lootKey(), t));
+        LootTableEvents.MODIFY.register((resourceKey, builder, lootTableSource, provider) -> {
+            var data = creeperMap.get(resourceKey);
+            if (data == null) return;
+            var bombSupplier = data.bombSupplier();
+            if (bombSupplier != null) {
+                builder.withPool(
+                        LootPool.lootPool()
+                                .setRolls(ConstantValue.exactly(1))
+                                .add(LootItem.lootTableItem(bombSupplier.get())
+                                        .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1)))
+                                ).when(LootItemRandomChanceWithEnchantedBonusCondition.randomChanceAndLootingBoost(provider, 0.5f, 0.3f))
+                );
+            }
+        });
     }
 
     public static void registerAttributes(Map<EntityType<? extends @NotNull LivingEntity>, AttributeSupplier.Builder> attributes) {

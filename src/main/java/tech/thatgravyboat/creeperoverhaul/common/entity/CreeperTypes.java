@@ -1,6 +1,8 @@
 package tech.thatgravyboat.creeperoverhaul.common.entity;
 
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 import ladysnake.blast.common.init.BlastItems;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
@@ -346,6 +348,26 @@ public class CreeperTypes {
             .setCanSpawn(() -> SpawningConfig.allowBirchCreeperSpawning)
             .setLootKey(createEntityLootKey("birch_creeper"))
             .build();
+
+    public static final Set<CreeperType> entries = new HashSet<>();
+    static {
+        entries.add(JUNGLE);
+        entries.add(BAMBOO);
+        entries.add(DESERT);
+        entries.add(BADLANDS);
+        entries.add(HILLS);
+        entries.add(SAVANNAH);
+        entries.add(MUSHROOM);
+        entries.add(SWAMP);
+        entries.add(DRIPSTONE);
+        entries.add(CAVE);
+        entries.add(DARK_OAK);
+        entries.add(SPRUCE);
+        entries.add(BEACH);
+        entries.add(SNOWY);
+        entries.add(OCEAN);
+        entries.add(BIRCH);
+    }
 
     public static ResourceKey<@NotNull LootTable> createEntityLootKey(String entityName) {
         return ResourceKey.create(Registries.LOOT_TABLE, Identifier.fromNamespaceAndPath(Creepers.MODID, "entities/" + entityName));

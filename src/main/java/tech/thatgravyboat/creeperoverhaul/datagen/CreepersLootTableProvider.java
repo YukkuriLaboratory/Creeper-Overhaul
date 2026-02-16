@@ -205,14 +205,6 @@ public class CreepersLootTableProvider extends SimpleFabricLootTableProvider {
                         .apply(EnchantedCountIncreaseFunction.lootingMultiplier(registries, UniformGenerator.between(0, 1))));
     }
 
-    private LootPool.Builder createBombPool(net.minecraft.world.item.Item item) {
-        return LootPool.lootPool()
-                .setRolls(ConstantValue.exactly(1))
-                .add(LootItem.lootTableItem(item)
-                        .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1)))
-                ).when(LootItemRandomChanceWithEnchantedBonusCondition.randomChanceAndLootingBoost(registries, 0.5f, 0.3f));
-    }
-
     private LootPool.Builder createBasicPool(net.minecraft.world.item.Item item, float min, float max, float lootingMin, float lootingMax) {
         return LootPool.lootPool()
                 .setRolls(ConstantValue.exactly(1))
