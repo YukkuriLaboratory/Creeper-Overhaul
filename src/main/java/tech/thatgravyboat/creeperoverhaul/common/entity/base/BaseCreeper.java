@@ -42,9 +42,6 @@ public class BaseCreeper extends Creeper implements GeoEntity, Shearable {
     private static final RawAnimation ATTACK =
             RawAnimation.begin().thenPlay("animation.creeper.attack");
 
-    private int oldSwell;
-    private int swell;
-    private int maxSwell = 30;
     public final CreeperType type;
 
     public static EntityType.EntityFactory<@NotNull BaseCreeper> of(CreeperType type) {
@@ -117,15 +114,6 @@ public class BaseCreeper extends Creeper implements GeoEntity, Shearable {
 
     public void setSheared(boolean sheared) {
         this.getEntityData().set(DATA_IS_SHEARED, sheared);
-    }
-
-    // -----------------------------
-    // Swelling Logic（変更なし）
-    // -----------------------------
-
-    @Override
-    public float getSwelling(float partialTicks) {
-        return Mth.lerp(partialTicks, (float) oldSwell, (float) swell) / (maxSwell - 2f);
     }
 
     public boolean canSwell() {
