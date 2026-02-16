@@ -17,10 +17,10 @@ import org.jetbrains.annotations.NotNull;
 public class TinyCactusBlock extends VegetationBlock {
 
     private static final VoxelShape SHAPE = Block.box(6, 0, 6, 10, 4, 10);
-    private static final MapCodec<TinyCactusBlock> CODEC = MapCodec.unit(TinyCactusBlock::new);
+    private static final MapCodec<TinyCactusBlock> CODEC = simpleCodec(TinyCactusBlock::new);
 
-    public TinyCactusBlock() {
-        super(Properties.of().strength(0.4F).sound(SoundType.WOOL).dynamicShape().offsetType(OffsetType.XZ));
+    public TinyCactusBlock(Properties properties) {
+        super(properties.strength(0.4F).sound(SoundType.WOOL).dynamicShape().offsetType(OffsetType.XZ));
     }
 
     @Override
