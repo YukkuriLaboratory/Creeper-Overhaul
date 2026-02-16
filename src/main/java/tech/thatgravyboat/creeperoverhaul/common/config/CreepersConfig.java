@@ -37,4 +37,8 @@ public final class CreepersConfig {
     @ConfigEntry(id = "destroyBlocks", translation = "Destroy Blocks")
     @Comment("Changes the Creeper Overhaul creepers to destroy blocks or not.")
     public static boolean destroyBlocks = true;
+
+    @ConfigEntry(id = "bombDropChance", translation = "Bomb drop chance")
+    @Comment("Chance to drop bomb from creeper")
+    public static float bombDropChance = 0.5f;
 }
