@@ -228,10 +228,6 @@ public class CreepersLootTableProvider extends SimpleFabricLootTableProvider {
     private LootPool.Builder createMusicDiscPool() {
         return LootPool.lootPool()
             .setRolls(ConstantValue.exactly(1))
-            .add(TagEntry.tagContents(ItemTags.CREEPER_DROP_MUSIC_DISCS))
-            .when(LootItemEntityPropertyCondition.hasProperties(
-                LootContext.EntityTarget.ATTACKER,
-                net.minecraft.advancements.criterion.EntityPredicate.Builder.entity().entityType(
-                    net.minecraft.advancements.criterion.EntityTypePredicate.of(EntityType.SKELETON))));
+            .add(TagEntry.tagContents(ItemTags.CREEPER_DROP_MUSIC_DISCS));
     }
 }

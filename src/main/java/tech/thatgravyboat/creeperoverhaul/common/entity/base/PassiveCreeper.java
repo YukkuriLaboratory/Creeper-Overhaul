@@ -15,19 +15,9 @@ public class PassiveCreeper extends NeutralCreeper {
     }
 
     @Override
-    protected void registerAttackGoals() {
-        //Do Nothing because we don't attack here!
-    }
-
-    @Override
-    public boolean shouldRevenge() {
-        return false;
-    }
-
-    @Override
     public float getWalkTargetValue(BlockPos pos, LevelReader level) {
         BlockState state = level.getBlockState(pos.below());
         boolean isGrassLike = state.is(Blocks.GRASS_BLOCK) || state.is(Blocks.PODZOL) || state.is(Blocks.MYCELIUM);
-        return isGrassLike ? 10f : level.getBrightness(LightLayer.BLOCK, pos) -0.5f;
+        return isGrassLike ? 10f : level.getBrightness(LightLayer.BLOCK, pos) - 0.5f;
     }
 }

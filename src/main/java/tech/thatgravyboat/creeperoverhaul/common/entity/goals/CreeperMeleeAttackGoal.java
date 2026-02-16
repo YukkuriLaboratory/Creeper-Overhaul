@@ -1,5 +1,6 @@
 package tech.thatgravyboat.creeperoverhaul.common.entity.goals;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import org.jetbrains.annotations.NotNull;
@@ -19,7 +20,9 @@ public class CreeperMeleeAttackGoal extends MeleeAttackGoal {
         if (this.mob.isWithinMeleeAttackRange(enemy) && this.isTimeToAttack()) {
             this.resetAttackCooldown();
             this.creeper.type.getHitSound(this.creeper).ifPresent(s -> this.creeper.level().playSound(null, this.creeper, s, this.creeper.getSoundSource(), 0.5F, 1.0F));
-            this.mob.doHurtTarget(enemy);
+            if (this.mob.level() instanceof ServerLevel serverLevel) {
+                this.mob.hurtServer(serverLevel, this.mob.damageSources().mobAttack(this.mob), 1f);
+            }
         } else if (this.mob.isWithinMeleeAttackRange(enemy)) {
             creeper.setAttacking(true);
         } else {

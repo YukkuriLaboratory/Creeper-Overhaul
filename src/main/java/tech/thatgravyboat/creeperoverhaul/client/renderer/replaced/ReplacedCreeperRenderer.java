@@ -18,9 +18,6 @@ public class ReplacedCreeperRenderer<R extends CreeperRenderState & GeoRenderSta
 
     public ReplacedCreeperRenderer(EntityRendererProvider.Context renderManager) {
         super(renderManager, new ReplacedCreeperModel<>(), new ReplacedCreeper());
-        getRenderLayers();
-        withRenderLayer(new ReplacedCreeperGlowLayer<>(this));
-        withRenderLayer(new ReplacedCreeperPowerLayer<>(this));
     }
 
     @Override
@@ -35,12 +32,6 @@ public class ReplacedCreeperRenderer<R extends CreeperRenderState & GeoRenderSta
 
         renderPassInfo.poseStack().scale(horizontalSwell, verticalSwell, horizontalSwell);
     }
-
-//    @Override
-//    public void render(Creeper entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
-//        if (entity.isInvisible()) return;
-//        super.render(entity, entityYaw, partialTick, poseStack, bufferSource, packedLight);
-//    }
 
     @Override
     public int getPackedOverlay(ReplacedCreeper animatable, Creeper replacedEntity, float u, float partialTick) {
@@ -57,10 +48,4 @@ public class ReplacedCreeperRenderer<R extends CreeperRenderState & GeoRenderSta
     public @Nullable RenderType getRenderType(R renderState, @NonNull Identifier texture) {
         return RenderTypes.entityTranslucent(texture);
     }
-
-//    @Override
-//    public boolean shouldShowName(@NonNull Creeper entity) {
-//        if (this.currentEntity == null) return false;
-//        return super.shouldShowName(entity);
-//    }
 }
