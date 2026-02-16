@@ -16,6 +16,24 @@ repositories {
 		name = "Team Resourceful Maven"
 		url = "https://maven.teamresourceful.com/repository/maven-public/"
 	}
+	exclusiveContent {
+		forRepository {
+			maven {
+				url = uri("https://jitpack.io")
+			}
+		}
+		filter {
+			includeModule("com.github.YukkuriLaboratory", "BLAST")
+		}
+	}
+	maven {
+		name = "Ladysnake Mods"
+		url = 'https://maven.ladysnake.org/releases'
+	}
+	maven {
+		name "datasync"
+		url "https://maven.uuid.gg/releases"
+	}
 }
 
 dependencies {
@@ -27,6 +45,7 @@ dependencies {
 	modImplementation("com.teamresourceful.resourcefulconfig:resourcefulconfig-fabric-1.21.11:3.11.2")
 	modImplementation("com.teamresourceful.resourcefullib:resourcefullib-fabric-1.21.11:3.11.0")
 	modImplementation("software.bernie.geckolib:geckolib-fabric-1.21.11:5.4.3")
+	modImplementation("com.github.YukkuriLaboratory:BLAST:0.1.0")
 	modImplementation("com.teamresourceful:bytecodecs:1.1.2")
 }
 
