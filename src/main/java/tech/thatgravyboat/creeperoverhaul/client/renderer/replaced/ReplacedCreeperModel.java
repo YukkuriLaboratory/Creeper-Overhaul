@@ -17,10 +17,10 @@ public class ReplacedCreeperModel<E extends ReplacedCreeper> extends GeoModel<E>
     @NonNull
     public Identifier getModelResource(@NonNull GeoRenderState geoRenderState) {
         if (Creepers.EVENT == Events.NONE) {
-            return Creepers.id("geo/plains.geo.json");
+            return Creepers.id("plains");
         } else {
             String id = Creepers.EVENT.name().toLowerCase(Locale.ROOT);
-            return Creepers.id("geo/events/" + id + ".geo.json");
+            return Creepers.id("events/" + id);
         }
     }
 
