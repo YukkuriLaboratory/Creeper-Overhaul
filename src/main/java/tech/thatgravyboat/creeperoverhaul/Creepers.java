@@ -56,8 +56,8 @@ public class Creepers {
                         LootPool.lootPool()
                                 .setRolls(ConstantValue.exactly(1))
                                 .add(LootItem.lootTableItem(bombSupplier.get())
-                                        .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1)))
-                                ).when(LootItemRandomChanceWithEnchantedBonusCondition.randomChanceAndLootingBoost(provider, 0.5f, 0.3f))
+                                        .apply(SetItemCountFunction.setCount(ConstantValue.exactly(CreepersConfig.bombDropCount)))
+                                ).when(LootItemRandomChanceWithEnchantedBonusCondition.randomChanceAndLootingBoost(provider, CreepersConfig.bombDropChance, CreepersConfig.bombDropChanceOnEnchant))
                 );
             }
         });

@@ -38,7 +38,15 @@ public final class CreepersConfig {
     @Comment("Changes the Creeper Overhaul creepers to destroy blocks or not.")
     public static boolean destroyBlocks = true;
 
+    @ConfigEntry(id = "bombDropCount", translation = "Bomb drop count")
+    @Comment("Amound of bomb drops")
+    public static int bombDropCount = 1;
+
     @ConfigEntry(id = "bombDropChance", translation = "Bomb drop chance")
     @Comment("Chance to drop bomb from creeper")
     public static float bombDropChance = 0.5f;
+
+    @ConfigEntry(id = "bombDropChangeOnEnchant", translation = "Bomb drop change modifier per enchant")
+    @Comment("Chance modifier when killed creeper with enchant")
+    public static float bombDropChanceOnEnchant = 0.3f;
 }
