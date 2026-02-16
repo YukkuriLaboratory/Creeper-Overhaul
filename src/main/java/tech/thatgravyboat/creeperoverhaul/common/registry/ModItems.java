@@ -74,7 +74,7 @@ public class ModItems {
 
     private static <T extends BaseCreeper> Supplier<SpawnEggItem> register(String name, Supplier<EntityType<@NotNull T>> creeperSupplier, int primaryColor, int secondaryColor, Item.Properties properties) {
         var key = ResourceKey.create(Registries.ITEM, Creepers.id(name));
-        return () -> createSpawnEgg(creeperSupplier, primaryColor, secondaryColor, properties.setId(key));
+        return ITEMS.register(name, () -> createSpawnEgg(creeperSupplier, primaryColor, secondaryColor, properties.setId(key)));
     }
 
     // Todo: move primary Color and secondary Color to datagen

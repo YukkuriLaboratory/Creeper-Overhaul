@@ -6,6 +6,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import org.jetbrains.annotations.NotNull;
 import tech.thatgravyboat.creeperoverhaul.common.config.CreepersConfig;
 import tech.thatgravyboat.creeperoverhaul.common.entity.CreeperTypes;
 import tech.thatgravyboat.creeperoverhaul.common.entity.base.CreeperAttributeBuilder;
@@ -32,7 +33,7 @@ public class Creepers {
         ModSounds.SOUNDS.init();
     }
 
-    public static void registerAttributes(Map<EntityType<? extends LivingEntity>, AttributeSupplier.Builder> attributes) {
+    public static void registerAttributes(Map<EntityType<? extends @NotNull LivingEntity>, AttributeSupplier.Builder> attributes) {
         attributes.put(ModEntities.JUNGLE_CREEPER.get(), build(CreeperTypes.JUNGLE));
         attributes.put(ModEntities.BAMBOO_CREEPER.get(), build(CreeperTypes.BAMBOO));
         attributes.put(ModEntities.DESERT_CREEPER.get(), build(CreeperTypes.DESERT));
