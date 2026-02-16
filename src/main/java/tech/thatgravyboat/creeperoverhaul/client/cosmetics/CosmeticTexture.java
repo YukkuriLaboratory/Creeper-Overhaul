@@ -6,11 +6,13 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.teamresourceful.resourcefullib.common.utils.files.GlobalStorage;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.SimpleTexture;
+import net.minecraft.client.renderer.texture.TextureContents;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceManager;
 import org.jetbrains.annotations.NotNull;
@@ -73,7 +75,8 @@ public final class CosmeticTexture {
             Minecraft.getInstance().execute(() -> {
                 this.uploaded = true;
                 if (!RenderSystem.isOnRenderThread()) {
-                    RenderSystem.recordRenderCall(() -> this.upload(image));
+                    RenderSystem.queueFencedTask(() -> this.upload(image));
+//                    RenderSystem.recordRenderCall(() -> this.upload(image));
                 } else {
                     this.upload(image);
                 }
@@ -86,11 +89,16 @@ public final class CosmeticTexture {
         }
 
         @Override
+        public TextureContents loadContents(ResourceManager resourceManager) throws IOException {
+            return super.loadContents(resourceManager);
+        }
+
+        @Override
         public void load(@NotNull ResourceManager manager) {
             Minecraft.getInstance().execute(() -> {
                 if (!this.uploaded) {
                     try {
-                        super.load(manager);
+                        super.loadContents(manager);
                     } catch (Exception ignored) {
                         /*Do Nothing*/
                     }
