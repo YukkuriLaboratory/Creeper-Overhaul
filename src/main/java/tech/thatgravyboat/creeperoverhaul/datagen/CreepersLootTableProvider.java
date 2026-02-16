@@ -2,6 +2,7 @@ package tech.thatgravyboat.creeperoverhaul.datagen;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
+import ladysnake.blast.common.init.BlastItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.SimpleFabricLootTableProvider;
 import net.minecraft.advancements.criterion.EntityPredicate;
@@ -54,6 +55,7 @@ public class CreepersLootTableProvider extends SimpleFabricLootTableProvider {
                         .withPool(createRareOrePool(Items.EMERALD, 0.05f, 0.07f))
                         .withPool(createRareOrePool(Items.DIAMOND, 0.01f, 0.03f))
                         .withPool(createMusicDiscPool())
+                        .withPool(createBombPool(BlastItems.AMETHYST_BOMB))
         );
 
         // Ocean Creeper - cod and salmon
@@ -63,6 +65,7 @@ public class CreepersLootTableProvider extends SimpleFabricLootTableProvider {
                         .withPool(createBasicPool(Items.COD, 0, 2, 0, 2))
                         .withPool(createBasicPool(Items.SALMON, 0, 2, 0, 2))
                         .withPool(createMusicDiscPool())
+                        .withPool(createBombPool(BlastItems.NAVAL_MINE))
         );
 
         // Birch Creeper - gunpowder and birch log
@@ -81,6 +84,7 @@ public class CreepersLootTableProvider extends SimpleFabricLootTableProvider {
                         .withPool(createGunpowderPool())
                         .withPool(createBasicPool(Items.POINTED_DRIPSTONE, 0, 2, 0, 1))
                         .withPool(createMusicDiscPool())
+                        .withPool(createBombPool(BlastItems.PEARL_BOMB))
         );
 
         // Dark Oak Creeper - gunpowder, dark oak log, and cobweb
@@ -91,6 +95,7 @@ public class CreepersLootTableProvider extends SimpleFabricLootTableProvider {
                         .withPool(createBasicPool(Items.DARK_OAK_LOG, 0, 2, 0, 1))
                         .withPool(createBasicPool(Items.COBWEB, 0, 2, 0, 1))
                         .withPool(createMusicDiscPool())
+                        .withPool(createBombPool(BlastItems.DIRT_BOMB))
         );
 
         // Badlands Creeper - gunpowder and gold nuggets
@@ -104,6 +109,7 @@ public class CreepersLootTableProvider extends SimpleFabricLootTableProvider {
                                         .apply(SetItemCountFunction.setCount(UniformGenerator.between(0, 6)))
                                         .apply(EnchantedCountIncreaseFunction.lootingMultiplier(registries, UniformGenerator.between(0, 1)))))
                         .withPool(createMusicDiscPool())
+                        .withPool(createBombPool(BlastItems.GOLDEN_BOMB))
         );
 
         // Beach Creeper - gunpowder, sand, prismarine shard, seagrass, and rare nautilus shell
@@ -138,6 +144,7 @@ public class CreepersLootTableProvider extends SimpleFabricLootTableProvider {
                         .withPool(createGunpowderPool())
                         .withPool(createBasicPool(Items.CACTUS, 0, 2, 0, 1))
                         .withPool(createMusicDiscPool())
+                        .withPool(createBombPool(BlastItems.SAND_BOMB))
         );
 
         // Mushroom Creeper - gunpowder only
@@ -146,6 +153,7 @@ public class CreepersLootTableProvider extends SimpleFabricLootTableProvider {
                 LootTable.lootTable()
                         .withPool(createGunpowderPool())
                         .withPool(createMusicDiscPool())
+                        .withPool(createBombPool(BlastItems.DIAMOND_BOMB))
         );
 
         // Swamp Creeper - gunpowder and bone
@@ -155,6 +163,7 @@ public class CreepersLootTableProvider extends SimpleFabricLootTableProvider {
                         .withPool(createGunpowderPool())
                         .withPool(createBasicPool(Items.BONE, 0, 2, 0, 1))
                         .withPool(createMusicDiscPool())
+                        .withPool(createBombPool(BlastItems.SLIME_BOMB))
         );
 
         // Jungle Creeper - gunpowder only
@@ -163,6 +172,7 @@ public class CreepersLootTableProvider extends SimpleFabricLootTableProvider {
                 LootTable.lootTable()
                         .withPool(createGunpowderPool())
                         .withPool(createMusicDiscPool())
+                        .withPool(createBombPool(BlastItems.CONFETTI_BOMB))
         );
 
         // Hills Creeper - gunpowder only
@@ -187,6 +197,7 @@ public class CreepersLootTableProvider extends SimpleFabricLootTableProvider {
                 createEntityLootKey("snowy_creeper"),
                 LootTable.lootTable()
                         .withPool(createBasicPool(Items.WHITE_WOOL, 0, 2, 0, 2))
+                        .withPool(createBombPool(BlastItems.FROST_BOMB))
         );
 
         // Bamboo Creeper - bamboo only
@@ -208,6 +219,14 @@ public class CreepersLootTableProvider extends SimpleFabricLootTableProvider {
                 .add(LootItem.lootTableItem(Items.GUNPOWDER)
                         .apply(SetItemCountFunction.setCount(UniformGenerator.between(0, 2)))
                         .apply(EnchantedCountIncreaseFunction.lootingMultiplier(registries, UniformGenerator.between(0, 1))));
+    }
+
+    private LootPool.Builder createBombPool(net.minecraft.world.item.Item item) {
+        return LootPool.lootPool()
+                .setRolls(ConstantValue.exactly(1))
+                .add(LootItem.lootTableItem(item)
+                        .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1)))
+                ).when(LootItemRandomChanceWithEnchantedBonusCondition.randomChanceAndLootingBoost(registries, 0.5f, 0.3f));
     }
 
     private LootPool.Builder createBasicPool(net.minecraft.world.item.Item item, float min, float max, float lootingMin, float lootingMax) {
