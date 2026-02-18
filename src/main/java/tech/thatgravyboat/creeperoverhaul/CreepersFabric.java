@@ -73,7 +73,7 @@ public class CreepersFabric implements ModInitializer {
         addCreeper(tag(ConventionalBiomeTags.IS_BADLANDS), ModEntities.BADLANDS_CREEPER);
         addCreeper(tag(ConventionalBiomeTags.IS_BADLANDS), ModEntities.CAVE_CREEPER, 50);
 
-        BiomeModifications.addSpawn(tag(IS_MUSHROOM), ModEntities.MUSHROOM_CREEPER.get().getCategory(), ModEntities.MUSHROOM_CREEPER.get(), 10, 1, 2);
+        BiomeModifications.addSpawn(tag(IS_MUSHROOM), ModEntities.MUSHROOM_CREEPER.get().getCategory(), ModEntities.MUSHROOM_CREEPER.get(), 10, 2, 4);
 
         addCreeper(tag(ConventionalBiomeTags.IS_TAIGA), ModEntities.SPRUCE_CREEPER);
         addCreeper(tag(ConventionalBiomeTags.IS_TAIGA), ModEntities.CAVE_CREEPER, 50);
