@@ -1,3 +1,6 @@
 {
-  "parent": "creeperoverhaul:block/tiny_cactus"
+  "model": {
+    "type": "minecraft:model",
+    "model": "creeperoverhaul:block/tiny_cactus"
+  }
 }

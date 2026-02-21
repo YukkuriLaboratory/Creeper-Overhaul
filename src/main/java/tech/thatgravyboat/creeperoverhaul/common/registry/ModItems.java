@@ -2,7 +2,9 @@ package tech.thatgravyboat.creeperoverhaul.common.registry;
 
 import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistries;
 import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistry;
+import java.util.function.Function;
 import java.util.function.Supplier;
+import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -70,7 +72,13 @@ public class ModItems {
     public static final Supplier<SpawnEggItem> BIRCH_SPAWN_EGG = register("birch_creeper_spawn_egg",
             ModEntities.BIRCH_CREEPER, 0xE1D6C9, 0x36342A, new Item.Properties());
 
-    public static final Supplier<Item> TINY_CACTUS =  ITEMS.register("tiny_cactus", () -> new BlockItem(ModBlocks.TINY_CACTUS.get(), new Item.Properties().component(DataComponents.EQUIPPABLE, Equippable.builder(EquipmentSlot.HEAD).build()).setId(ResourceKey.create(Registries.ITEM, Creepers.id("tiny_cactus")))));
+    public static final BlockItem TINY_CACTUS = registerDirectly(ResourceKey.create(Registries.ITEM, Creepers.id("tiny_cactus")), itemId -> new BlockItem(
+            ModBlocks.TINY_CACTUS.get(),
+            new Item.Properties()
+                    .component(DataComponents.EQUIPPABLE, Equippable.builder(EquipmentSlot.HEAD).build())
+                    .setId(itemId)
+                    .useBlockDescriptionPrefix()
+    ));
 
     private static <T extends BaseCreeper> Supplier<SpawnEggItem> register(String name, Supplier<EntityType<@NotNull T>> creeperSupplier, int primaryColor, int secondaryColor, Item.Properties properties) {
         var key = ResourceKey.create(Registries.ITEM, Creepers.id(name));
@@ -80,5 +88,9 @@ public class ModItems {
     // Todo: move primary Color and secondary Color to datagen
     public static <E extends Mob, T extends EntityType<@NotNull E>> SpawnEggItem createSpawnEgg(Supplier<T> entity, int primaryColor, int secondaryColor, Item.Properties properties) {
         return new SpawnEggItem(properties.spawnEgg(entity.get()));
+    }
+
+    public static <T extends Item> T registerDirectly(ResourceKey<@NotNull Item> itemKey, Function<ResourceKey<@NotNull Item>, T> item) {
+        return Registry.register(BuiltInRegistries.ITEM, itemKey, item.apply(itemKey));
     }
 }
