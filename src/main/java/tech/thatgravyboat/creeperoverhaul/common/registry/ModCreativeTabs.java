@@ -17,5 +17,6 @@ public class ModCreativeTabs {
             new ResourcefulCreativeModeTab(Creepers.id("item_group"))
                     .setItemIcon(() -> Items.CREEPER_HEAD)
                     .addRegistry(ModItems.ITEMS)
+                    .addStack(ModItems.TINY_CACTUS)
                     .build());
 }
