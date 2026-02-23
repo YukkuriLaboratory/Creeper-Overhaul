@@ -49,4 +49,8 @@ public final class CreepersConfig {
     @ConfigEntry(id = "bombDropChangeOnEnchant", translation = "Bomb drop change modifier per enchant")
     @Comment("Chance modifier when killed creeper with enchant")
     public static float bombDropChanceOnEnchant = 0.3f;
+
+    @ConfigEntry(id = "tinyCactusDropChance", translation = "Tiny cactus drop chance")
+    @Comment("Chance to drop tiny cactus")
+    public static float tinyCactusDropChance = 0.6f;
 }

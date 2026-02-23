@@ -5,15 +5,10 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Shearable;
 import net.minecraft.world.entity.monster.Creeper;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -25,7 +20,7 @@ import software.bernie.geckolib.animation.object.PlayState;
 import software.bernie.geckolib.animation.state.AnimationTest;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class BaseCreeper extends Creeper implements GeoEntity, Shearable {
+public class BaseCreeper extends Creeper implements GeoEntity {
 
     private static final EntityDataAccessor<Boolean> DATA_IS_ATTACKING =
             SynchedEntityData.defineId(BaseCreeper.class, EntityDataSerializers.BOOLEAN);
@@ -148,22 +143,5 @@ public class BaseCreeper extends Creeper implements GeoEntity, Shearable {
     @Override
     protected @NotNull SoundEvent getDeathSound() {
         return type.getDeathSound(this).orElseGet(super::getDeathSound);
-    }
-
-    // -----------------------------
-    // Shearing
-    // -----------------------------
-
-    @Override
-    public void shear(ServerLevel serverLevel, SoundSource soundSource, ItemStack itemStack) {
-        level().playSound(null, this, SoundEvents.SNOW_GOLEM_SHEAR, soundSource, 1.0F, 1.0F);
-        if (!level().isClientSide()) {
-            spawnAtLocation(serverLevel, type.shearDrop().get(), 1.7F);
-        }
-    }
-
-    @Override
-    public boolean readyForShearing() {
-        return !isSheared() && type.isShearable();
     }
 }
