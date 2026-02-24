@@ -52,8 +52,7 @@ public class NeutralCreeper extends BaseCreeper implements NeutralMob {
     }
 
     @Override
-    protected void registerGoals() {
-        super.registerGoals();
+    protected void registerAttackGoals() {
         this.goalSelector.addGoal(4, new CreeperMeleeAttackGoal(this, 1.0, false));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true, this::isAngryAt));
     }

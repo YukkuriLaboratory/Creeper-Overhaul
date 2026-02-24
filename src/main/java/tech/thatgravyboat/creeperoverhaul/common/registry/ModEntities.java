@@ -24,7 +24,7 @@ public class ModEntities {
                     .clientTrackingRange(8).build(key("jungle_creeper")));
 
     public static final Supplier<EntityType<NeutralCreeper>> BAMBOO_CREEPER = ENTITIES.register("bamboo_creeper",
-            () -> EntityType.Builder.of(BaseCreeper.ofNeutral(CreeperTypes.BAMBOO), MobCategory.MONSTER).sized(0.6F, 2F)
+            () -> EntityType.Builder.of(BaseCreeper.ofNeutral(CreeperTypes.BAMBOO), MobCategory.MONSTER).notInPeaceful().sized(0.6F, 2F)
                     .clientTrackingRange(8).build(key("bamboo_creeper")));
 
     public static final Supplier<EntityType<BaseCreeper>> DESERT_CREEPER = ENTITIES.register("desert_creeper",
@@ -36,11 +36,11 @@ public class ModEntities {
                     .clientTrackingRange(8).build(key("badlands_creeper")));
 
     public static final Supplier<EntityType<NeutralCreeper>> HILLS_CREEPER = ENTITIES.register("hills_creeper",
-            () -> EntityType.Builder.of(BaseCreeper.ofNeutral(CreeperTypes.HILLS), MobCategory.MONSTER).sized(0.6F, 1.7F)
+            () -> EntityType.Builder.of(BaseCreeper.ofNeutral(CreeperTypes.HILLS), MobCategory.MONSTER).notInPeaceful().sized(0.6F, 1.7F)
                     .clientTrackingRange(8).build(key("hills_creeper")));
 
     public static final Supplier<EntityType<NeutralCreeper>> SAVANNAH_CREEPER = ENTITIES.register("savannah_creeper",
-            () -> EntityType.Builder.of(BaseCreeper.ofNeutral(CreeperTypes.SAVANNAH), MobCategory.MONSTER).sized(0.6F, 2.2F)
+            () -> EntityType.Builder.of(BaseCreeper.ofNeutral(CreeperTypes.SAVANNAH), MobCategory.MONSTER).notInPeaceful().sized(0.6F, 2.2F)
                     .clientTrackingRange(8).build(key("savannah_creeper")));
 
     public static final Supplier<EntityType<PassiveCreeper>> MUSHROOM_CREEPER = ENTITIES.register("mushroom_creeper",
@@ -72,7 +72,7 @@ public class ModEntities {
                     .clientTrackingRange(8).build(key("beach_creeper")));
 
     public static final Supplier<EntityType<NeutralCreeper>> SNOWY_CREEPER = ENTITIES.register("snowy_creeper",
-            () -> EntityType.Builder.of(BaseCreeper.ofNeutral(CreeperTypes.SNOWY), MobCategory.MONSTER).sized(0.7F, 1.7F)
+            () -> EntityType.Builder.of(BaseCreeper.ofNeutral(CreeperTypes.SNOWY), MobCategory.MONSTER).notInPeaceful().sized(0.7F, 1.7F)
                     .clientTrackingRange(8).build(key("snowy_creeper")));
 
     public static final Supplier<EntityType<PufferfishCreeper>> OCEAN_CREEPER = ENTITIES.register("ocean_creeper",
