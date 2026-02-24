@@ -26,9 +26,12 @@ public abstract class CreeperMixin extends LivingEntity {
     public void onExplode(CallbackInfo ci) {
         var creeper = (Creeper)(Object) this;
         if(!(creeper instanceof BaseCreeper baseCreeper)) return;
+        var shear = baseCreeper.type.shearDrop();
+        if(shear == null) return;
+
         if(level() instanceof ServerLevel serverLevel) {
             if(random.nextFloat() < CreepersConfig.tinyCactusDropChance) {
-                spawnAtLocation(serverLevel, baseCreeper.type.shearDrop().get(), 1.7F);
+                spawnAtLocation(serverLevel, shear.get(), 1.7F);
             };
         }
     }
