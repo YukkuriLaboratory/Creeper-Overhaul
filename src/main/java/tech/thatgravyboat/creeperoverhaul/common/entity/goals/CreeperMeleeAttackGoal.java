@@ -21,7 +21,7 @@ public class CreeperMeleeAttackGoal extends MeleeAttackGoal {
             this.resetAttackCooldown();
             this.creeper.type.getHitSound(this.creeper).ifPresent(s -> this.creeper.level().playSound(null, this.creeper, s, this.creeper.getSoundSource(), 0.5F, 1.0F));
             if (this.mob.level() instanceof ServerLevel serverLevel) {
-                this.mob.hurtServer(serverLevel, this.mob.damageSources().mobAttack(this.mob), 1f);
+                enemy.hurtServer(serverLevel, this.mob.damageSources().mobAttack(this.mob), 1f);
             }
         } else if (this.mob.isWithinMeleeAttackRange(enemy)) {
             creeper.setAttacking(true);
