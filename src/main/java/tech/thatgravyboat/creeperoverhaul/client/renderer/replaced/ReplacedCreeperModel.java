@@ -11,7 +11,7 @@ import tech.thatgravyboat.creeperoverhaul.common.utils.Events;
 
 public class ReplacedCreeperModel<E extends ReplacedCreeper> extends GeoModel<E> {
 
-    private static final Identifier ANIMATION = Creepers.id("animations/creeper.animation.json");
+    private static final Identifier ANIMATION = Creepers.id("creeper");
 
     @Override
     @NonNull
