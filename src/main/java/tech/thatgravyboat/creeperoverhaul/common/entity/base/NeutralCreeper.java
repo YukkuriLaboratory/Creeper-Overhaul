@@ -46,6 +46,7 @@ public class NeutralCreeper extends BaseCreeper implements NeutralMob {
 
     @Override
     public void aiStep() {
+        super.aiStep();
         if (this.level() instanceof ServerLevel serverLevel) {
             this.updatePersistentAnger(serverLevel, false);
         }
