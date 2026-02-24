@@ -44,7 +44,7 @@ public class ModEntities {
                     .clientTrackingRange(8).build(key("savannah_creeper")));
 
     public static final Supplier<EntityType<PassiveCreeper>> MUSHROOM_CREEPER = ENTITIES.register("mushroom_creeper",
-            () -> EntityType.Builder.of(BaseCreeper.ofPassive(CreeperTypes.MUSHROOM), MobCategory.CREATURE).sized(1F, 1.7F)
+            () -> EntityType.Builder.of(BaseCreeper.ofPassive(CreeperTypes.MUSHROOM), MobCategory.CREATURE).canSpawnFarFromPlayer().sized(1F, 1.7F)
                     .clientTrackingRange(8).build(key("mushroom_creeper")));
 
     public static final Supplier<EntityType<BaseCreeper>> SWAMP_CREEPER = ENTITIES.register("swamp_creeper",
