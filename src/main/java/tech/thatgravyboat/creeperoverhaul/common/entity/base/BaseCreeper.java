@@ -22,7 +22,6 @@ import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animatable.manager.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.animation.object.PlayState;
 import software.bernie.geckolib.animation.state.AnimationTest;
 import software.bernie.geckolib.util.GeckoLibUtil;
@@ -30,6 +29,7 @@ import tech.thatgravyboat.creeperoverhaul.api.PluginRegistry;
 import tech.thatgravyboat.creeperoverhaul.common.entity.goals.CreeperAvoidEntitiesGoal;
 import tech.thatgravyboat.creeperoverhaul.common.entity.goals.CreeperMeleeAttackGoal;
 import tech.thatgravyboat.creeperoverhaul.common.entity.goals.CreeperSwellGoal;
+import tech.thatgravyboat.creeperoverhaul.common.utils.AnimationConstants;
 
 public class BaseCreeper extends Creeper implements GeoEntity {
 
@@ -39,14 +39,6 @@ public class BaseCreeper extends Creeper implements GeoEntity {
             SynchedEntityData.defineId(BaseCreeper.class, EntityDataSerializers.BOOLEAN);
 
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-
-    // GeckoLib5 Animations
-    private static final RawAnimation IDLE =
-            RawAnimation.begin().thenLoop("animation.creeper.idle");
-    private static final RawAnimation WALK =
-            RawAnimation.begin().thenLoop("animation.creeper.walk");
-    private static final RawAnimation ATTACK =
-            RawAnimation.begin().thenPlay("animation.creeper.attack");
 
     public final CreeperType type;
 
@@ -73,11 +65,11 @@ public class BaseCreeper extends Creeper implements GeoEntity {
 
     protected PlayState animate(AnimationTest<@NotNull BaseCreeper> state) {
         if (isAttacking()) {
-            state.setAnimation(ATTACK);
+            state.setAnimation(AnimationConstants.ATTACK);
         } else if (state.isMoving()) {
-            state.setAnimation(WALK);
+            state.setAnimation(AnimationConstants.WALK);
         } else {
-            state.setAnimation(IDLE);
+            state.setAnimation(AnimationConstants.IDLE);
         }
 
         return PlayState.CONTINUE;
