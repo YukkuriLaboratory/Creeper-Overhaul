@@ -126,6 +126,7 @@ public class CreeperTypes {
             .setPrimeSounds(ModSounds.STONE_PRIME)
             .setCanSpawn(() -> SpawningConfig.allowHillsCreeperSpawning)
             .setLootKey(createEntityLootKey("hills_creeper"))
+            .setBombSupplier(() -> BlastItems.TRIGGER_BOMB)
             .build();
 
     public static final CreeperType SAVANNAH = new CreeperType.Builder()
