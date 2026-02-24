@@ -8,7 +8,14 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -19,6 +26,10 @@ import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.animation.object.PlayState;
 import software.bernie.geckolib.animation.state.AnimationTest;
 import software.bernie.geckolib.util.GeckoLibUtil;
+import tech.thatgravyboat.creeperoverhaul.api.PluginRegistry;
+import tech.thatgravyboat.creeperoverhaul.common.entity.goals.CreeperAvoidEntitiesGoal;
+import tech.thatgravyboat.creeperoverhaul.common.entity.goals.CreeperMeleeAttackGoal;
+import tech.thatgravyboat.creeperoverhaul.common.entity.goals.CreeperSwellGoal;
 
 public class BaseCreeper extends Creeper implements GeoEntity {
 
@@ -84,6 +95,29 @@ public class BaseCreeper extends Creeper implements GeoEntity {
         return cache;
     }
 
+
+    @Override
+    protected void registerGoals() {
+        this.goalSelector.addGoal(2, new CreeperSwellGoal(this));
+        this.goalSelector.addGoal(3, new CreeperAvoidEntitiesGoal(this, 6.0F, 1.0, 1.2));
+        registerMovementGoals();
+        this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
+        registerAttackGoals();
+        if (shouldStayCloseToLeashHolder()) this.targetSelector.addGoal(2, new HurtByTargetGoal(this));
+    }
+
+    protected void registerAttackGoals() {
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true, (entity, level) ->
+                PluginRegistry.getInstance().canAttack(this, entity)
+        ));
+        this.goalSelector.addGoal(4, new CreeperMeleeAttackGoal(this, 1.0, false));
+    }
+
+    protected void registerMovementGoals() {
+        this.goalSelector.addGoal(1, new FloatGoal(this));
+        this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 0.8));
+    }
     // -----------------------------
     // Synced Data
     // -----------------------------
