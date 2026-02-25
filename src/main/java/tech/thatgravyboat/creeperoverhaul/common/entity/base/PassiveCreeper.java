@@ -19,6 +19,10 @@ public class PassiveCreeper extends NeutralCreeper {
     }
 
     @Override
+    public void checkDespawn() {
+    }
+
+    @Override
     public float getWalkTargetValue(BlockPos pos, LevelReader level) {
         BlockState state = level.getBlockState(pos.below());
         boolean isGrassLike = state.is(Blocks.GRASS_BLOCK) || state.is(Blocks.PODZOL) || state.is(Blocks.MYCELIUM);
