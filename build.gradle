@@ -45,7 +45,7 @@ dependencies {
 	modImplementation("com.teamresourceful.resourcefulconfig:resourcefulconfig-fabric-1.21.11:3.11.2")
 	modImplementation("com.teamresourceful.resourcefullib:resourcefullib-fabric-1.21.11:3.11.0")
 	modImplementation("software.bernie.geckolib:geckolib-fabric-1.21.11:5.4.3")
-	modImplementation("com.github.YukkuriLaboratory:BLAST:0.1.0")
+	modImplementation("com.github.YukkuriLaboratory:BLAST:no-recipes-SNAPSHOT")
 	modImplementation("com.teamresourceful:bytecodecs:1.1.2")
 }
 

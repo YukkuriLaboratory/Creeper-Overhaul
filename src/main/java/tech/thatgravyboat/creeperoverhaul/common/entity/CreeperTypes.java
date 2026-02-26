@@ -63,6 +63,7 @@ public class CreeperTypes {
             .setPrimeSounds(ModSounds.PLANT_PRIME)
             .setCanSpawn(() -> SpawningConfig.allowBambooCreeperSpawning)
             .setLootKey(createEntityLootKey("bamboo_creeper"))
+            .setBombSupplier(() -> BlastItems.THUNDER_BOMB)
             .build();
 
     public static final CreeperType DESERT = new CreeperType.Builder()
